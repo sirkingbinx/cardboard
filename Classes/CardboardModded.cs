@@ -1,25 +1,56 @@
+using System;
+using System.Reflection;
+using System.Collections.Generic;
+using UnityEngine;
 using Cardboard.Utils;
+
+using Photon.Pun;
+using GorillaNetworking;
 
 namespace Cardboard.Classes
 {
+    /// <summary>
+    /// You should use attributes [CardboardModdedHandler], [CardboardModdedJoin] and [CardboardModdedLeave] instead.
+    /// </summary>
     public class CardboardModded
     {
-        public string Name { get; private set; }
-        public MethodInfo ModdedJoinMethod;
-        public MethodInfo ModdedLeaveMethod;
+        public static List<Assembly> Assemblies = new List<Assembly>();
 
-        public CardboardModded(string _name)
+        public static void CallModdedEvent(ModdedEventType mType)
         {
-            Name = _name;
+            List<MethodInfo> Attributes = new List<MethodInfo>();
 
-            ModdedJoinMethod = typeof(this).GetMethod("ModdedJoin");
-            ModdedLeaveMethod = typeof(this).GetMethod("ModdedLeave");
-        }
+            foreach (Assembly assembly in Assemblies)
+            {
+                Attributes.AddRange(mType == ModdedEventType.ModdedJoin
+                                             ? Method.FindCaseOfAttribute<CardboardModdedJoin>(assembly)
+                                             : Method.FindCaseOfAttribute<CardboardModdedLeave>(assembly)
+                );
+            }
 
-        public void SafeInvoke(ModdedEventType _todo)
-        {
-            if (_todo = ModdedEventType.ModdedJoin) Method.TryInvoke(ModdedJoinMethod);
-            if (_todo = ModdedEventType.ModdedLeave) Method.TryInvoke(ModdedLeaveMethod);  
+            foreach (MethodInfo me in Attributes)
+                Method.TryInvoke(me);
         }
     }
+
+    /// <summary>
+    /// The class attribute for providing modded functionality.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class CardboardModdedHandler : Attribute
+    {
+        public CardboardModdedHandler() => CardboardModded.Assemblies.Add(Assembly.GetCallingAssembly());
+    }
+
+    /// <summary>
+    /// An attribute for methods to handle joining modded lobbies.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
+    public class CardboardModdedJoin : Attribute { }
+
+    /// <summary>
+    /// An attribute for methods to handle leaving modded lobbies.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
+    public class CardboardModdedLeave : Attribute { }
 }

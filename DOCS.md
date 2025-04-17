@@ -2,21 +2,28 @@
 Not great at making docs but felt like I need to. Here's everything with some examples.
 In these docs, it is organized by namespace.
 
+> Note:
+> If these docs are not up to date, all summaries of the mods are up-to-date, so your Visual Studio install can tell you what functions do.
+
 # Classes
-## CardboardModded
+## CardboardModdedHandler
 - **Description**:
 An attribute providing modded functionality from most Utilla forks. If Utilla is not installed, Cardboard will manage the modded room functionality itself.
+It deals with the attributes `CardboardModdedJoin` and `CardboardModdedLeave`.
 - **Example**:
     ```cs
-    using Cardboard.Utils;
+    using Cardboard.Classes;
     using BepInEx;
 
-    [CardboardModded("Mod Name")]
+    [CardboardModdedHandler]
     public class MyGamemodeHandler : MonoBehaviour
     {
         bool inModded = false;
 
+        [CardboardModdedJoin]
         public void ModdedJoin() => inModded = true;
+
+        [CardboardModdedLeave]
         public void ModdedLeave() => inModded = false;
 
         public void Update()
@@ -35,7 +42,7 @@ CardboardHarmony is a decent handler for patching your mod. It is pretty simple 
 
 ### `Harmony` `CardboardHarmony.PatchInstance(BepInPlugin)`
 - **Description**:
-Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch the plugin.
+Patches the `BaseUnityPlugin` provided and returns the `Harmony` class used to patch the plugin.
 
 - **Example**:
     ```cs
@@ -43,12 +50,12 @@ Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch
     using BepInEx;
 
     [BepInPlugin("modauthor.modname", "Mod Name", "1.0.0")]
-    public class MyMod : BepInPlugin
+    public class MyMod : BaseUnityPlugin
     {
         Harmony thisHarmony;
 
         void Start() {
-            // The most basic argument is just giving the class it executes from. Check overloads for all the ways you can call PatchInstance.
+            // Hand it the currently executing BaseUnityPlugin. Check overloads for all the ways you can call PatchInstance.
             thisHarmony = CardboardHarmony.PatchInstance(this);
         }
     }
@@ -56,9 +63,7 @@ Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch
 
 - **Overloads**:
     - ``PatchInstance(BepInPlugin _instance)``
-    - ``PatchInstance(BepInPlugin _instance, Assembly _GetExecutingAssembly)``
     - ``PatchInstance(string _UUID)``
-    - ``PatchInstance(string _UUID, Assembly _GetExecutingAssembly)``
 
 ### `void` `CardboardHarmony.UnpatchInstance(Harmony _instance)`
 - **Description**:
@@ -80,7 +85,7 @@ Player-based stuff.
 
 ## Input
 Handles controller inputs.
-### `enum` `InputType`
+### `enum`  `InputType`
 - leftPrimary
 - leftSecondary
 - leftGrip
@@ -93,7 +98,7 @@ Handles controller inputs.
 - rightTrigger
 - rightStick
 
-### `bool` `Input.GetValue(InputType _inputType)`
+### `bool`  `Input.GetValue(InputType _inputType)`
 - **Description**: Gathers the value of the `_inputType`.
 - **Example**:
     ```cs
@@ -119,4 +124,11 @@ Handles controller inputs.
         if (UpdateEnabled)
             Method.TryInvoke(UpdateMethodInfo);
     }
+    ```
+### `List<MethodInfo> FindCaseOfAttribute<T>(Assembly _assembly)`
+- **Description**: Get all methods that have attribute `T`.
+- **Example**
+    ```
+    public class ExampleThingy : Attribute
+    public List<MethodInfo> methods = Method.FindCaseOfAttribute<ExampleThingy>(Assembly.GetCallingAssembly());
     ```

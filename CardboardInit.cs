@@ -1,6 +1,7 @@
 using BepInEx;
 using UnityEngine;
 using Cardboard.Utils;
+using Cardboard.Internals;
 
 namespace Cardboard.Start
 {
@@ -14,19 +15,6 @@ namespace Cardboard.Start
             instance = this;
             CardboardHarmony.PatchInstance(this);
             new GameObject("CardboardManager", typeof(CardboardManager));
-        }
-    }
-
-    public class CardboardManager : MonoBehaviour
-    {
-        public static CardboardManager instance;
-
-        public string CardboardVersion = "0.0.0";
-
-        void Start() {
-            instance = this;
-            
-            CardboardVersion = Start.instance.Info.Metadata.Version;
         }
     }
 }
