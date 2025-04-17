@@ -1,12 +1,103 @@
 # Docs
-## Patching
-### ``CardboardLib.HarmonyPatches``
-- ``PatchInstance(BaseUnityPlugin)``
-Will patch your plugin from your base class.
+Not great at making docs but felt like I need to. Here's everything with some examples.
+In these docs, it is organized by namespace.
 
-Example:
-```cs
-void Start() {
-    PatchInstance(this);
-}
-```
+# Classes
+## CardboardModded
+- **Description**:
+An attribute providing modded functionality from most Utilla forks. If Utilla is not installed, Cardboard will manage the modded room functionality itself.
+- **Example**:
+    ```cs
+    using Cardboard.Utils;
+    using BepInEx;
+
+    // Note: CardboardModded functionality expects a MonoBehaviour, which
+    // you probably should have used anyway
+    [CardboardModded("Mod Name")]
+    public class MyGamemodeHandler : MonoBehaviour
+    {
+        bool inModded = false;
+
+        public void ModdedJoin() => inModded = true;
+        public void ModdedLeave() => inModded = false;
+
+        public void Update()
+        {
+            if (inModded)
+            {
+                // Do your modded stuff here
+            }
+        }
+    }
+    ```
+
+# Utils
+## CardboardHarmony
+CardboardHarmony is a decent handler for patching your mod. It is pretty simple to use and only takes a couple arguments.
+
+### `Harmony` `CardboardHarmony.PatchInstance(BepInPlugin)`
+- **Description**:
+Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch the plugin.
+
+- **Example**:
+    ```cs
+    using Cardboard.Utils;
+    using BepInEx;
+
+    [BepInPlugin("modauthor.modname", "Mod Name", "1.0.0")]
+    public class MyMod : BepInPlugin
+    {
+        Harmony thisHarmony;
+
+        void Start() {
+            // The most basic argument is just giving the class it executes from. Check overloads for all the ways you can call PatchInstance.
+            thisHarmony = CardboardHarmony.PatchInstance(this);
+        }
+    }
+    ```
+
+- **Overloads**:
+    - ``PatchInstance(BepInPlugin _instance)``
+    - ``PatchInstance(string UUID)``
+
+### `void` `CardboardHarmony.UnpatchInstance(Harmony _instance)`
+- **Description**:
+    Removes patches for the `_instance` of `Harmony`.
+- **Example**:
+    ```cs
+    Harmony thisInstance;
+
+    void OnEnable() => thisInstance = CardboardHarmony.PatchInstance(this);
+
+    // Only implemented when using CI/GorillaComputer
+    void OnDisable() => CardboardHarmony.UnpatchInstance(thisInstance);
+    ```
+## Input
+Handles controller inputs.
+### `enum` `InputType`
+- leftPrimary
+- leftSecondary
+- leftGrip
+- leftTrigger
+- leftStick
+
+- rightPrimary
+- rightSecondary
+- rightGrip
+- rightTrigger
+- rightStick
+
+### `bool` `Input.GetValue(InputType _inputType)`
+- **Description**: Gathers the value of the `_inputType`.
+- **Example**:
+    ```cs
+    void Update()
+    {
+        if (Input.GetValue(InputType.rightPrimary))
+        {
+            // stuff to do when the right primary is pressed
+            // you couldn't have figured out how to use GetValue() without me
+            // thank me for my services by starring the CardboardLib repository
+        }
+    }
+    ```
