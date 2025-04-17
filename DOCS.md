@@ -11,8 +11,6 @@ An attribute providing modded functionality from most Utilla forks. If Utilla is
     using Cardboard.Utils;
     using BepInEx;
 
-    // Note: CardboardModded functionality expects a MonoBehaviour, which
-    // you probably should have used anyway
     [CardboardModded("Mod Name")]
     public class MyGamemodeHandler : MonoBehaviour
     {
@@ -58,7 +56,9 @@ Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch
 
 - **Overloads**:
     - ``PatchInstance(BepInPlugin _instance)``
-    - ``PatchInstance(string UUID)``
+    - ``PatchInstance(BepInPlugin _instance, Assembly _GetExecutingAssembly)``
+    - ``PatchInstance(string _UUID)``
+    - ``PatchInstance(string _UUID, Assembly _GetExecutingAssembly)``
 
 ### `void` `CardboardHarmony.UnpatchInstance(Harmony _instance)`
 - **Description**:
@@ -72,6 +72,12 @@ Patches the `BepInPlugin` provided and returns the `Harmony` class used to patch
     // Only implemented when using CI/GorillaComputer
     void OnDisable() => CardboardHarmony.UnpatchInstance(thisInstance);
     ```
+## Player
+Player-based stuff.
+### `bool` `Steam`
+- **Description**: Value representing if the player is playing on SteamVR. `false` if playing on Oculus Rift.
+- **Example**: No.
+
 ## Input
 Handles controller inputs.
 ### `enum` `InputType`
@@ -99,5 +105,18 @@ Handles controller inputs.
             // you couldn't have figured out how to use GetValue() without me
             // thank me for my services by starring the CardboardLib repository
         }
+    }
+    ```
+## Method
+### `void` `TryInvoke(MethodInfo _methodInfo)`
+- **Description**: Attempt to invoke `_methodInfo` with no arguments.
+- **Example**:
+    ```cs
+    MethodInfo UpdateMethodInfo;
+    
+    void Update()
+    {
+        if (UpdateEnabled)
+            Method.TryInvoke(UpdateMethodInfo);
     }
     ```
