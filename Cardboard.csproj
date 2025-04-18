@@ -48,6 +48,9 @@
 		<Reference Include="UnityEngine">
 		  <HintPath>$(GameAssemblyPath)\UnityEngine.dll</HintPath>
 		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+		  <HintPath>$(GameAssemblyPath)\UnityEngine.AssetBundleModule.dll</HintPath>
+		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
 		  <HintPath>$(GameAssemblyPath)\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
