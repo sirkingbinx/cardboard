@@ -125,10 +125,22 @@ Handles controller inputs.
             Method.TryInvoke(UpdateMethodInfo);
     }
     ```
-### `List<MethodInfo> FindCaseOfAttribute<T>(Assembly _assembly)`
+### `List<MethodInfo> FindCaseOfAttribute<T>()`
 - **Description**: Get all methods that have attribute `T`.
 - **Example**
     ```
     public class ExampleThingy : Attribute
-    public List<MethodInfo> methods = Method.FindCaseOfAttribute<ExampleThingy>(Assembly.GetCallingAssembly());
+    public List<MethodInfo> methods = Method.FindCaseOfAttribute<ExampleThingy>();
+    ```
+- **Overloads**:
+    - `FindCaseOfAttribute<T>()`
+    - `FindCaseOfAttribute<T>(Assembly _assembly)`
+
+## CardboardAssetLoader
+Loads assets, big shocker
+### `GameObject` `Load(string _path, string _name)`
+- **Description**: Loads GameObject `_name` from the resource at `_path`.
+- **Example**:
+    ```cs
+    GameObject myAsset = CardboardAssetLoader.Load("Resources/myassetbundle", "FooBarPrefab");
     ```
