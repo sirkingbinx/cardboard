@@ -144,3 +144,13 @@ Loads assets, big shocker
     ```cs
     GameObject myAsset = CardboardAssetLoader.Load("Resources/myassetbundle", "FooBarPrefab");
     ```
+
+## CardboardBootstrap
+Handles mod installation checks
+### `bool` `Installed(string _UUID)`
+- **Description**: Checks if mod with UUID `_UUID` is installed.
+- **Example**:
+    ```cs
+    if (CardboardBootstrap.Installed("me.mymod"))
+        Debug.Log("Thank you very much!");
+    ```
