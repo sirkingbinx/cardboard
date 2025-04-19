@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using Cardboard.Start;
+using System.Collections.Generic;
+using Cardboard.Classes;
 
 namespace Cardboard.Internals
 {
     public class CardboardManager : MonoBehaviour
     {
-        public static CardboardManager instance;
-
-        public string CardboardVersion = "0.0.0";
+        public static CardboardManager instance { get; private set; }
 
         void Start()
         {
             instance = this;
-
-            CardboardVersion = Bootstrap.instance.Info.Metadata.Version.ToString();
         }
     }
 }

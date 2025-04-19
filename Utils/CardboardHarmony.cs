@@ -1,6 +1,8 @@
 using HarmonyLib;
 using BepInEx;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cardboard.Utils
 {
@@ -9,6 +11,7 @@ namespace Cardboard.Utils
     /// </summary>
     public class CardboardHarmony
     {
+        private static Dictionary<Assembly, Harmony> patchedInstances = new Dictionary<Assembly, Harmony>();
         /// <summary>
         /// Patches the BaseUnityPlugin provided and returns the Harmony class used to patch the plugin.
         /// </summary>
@@ -18,6 +21,7 @@ namespace Cardboard.Utils
         {
             Harmony thisHarmony = new Harmony(_instance.Info.Metadata.GUID);
             thisHarmony.PatchAll(Assembly.GetCallingAssembly());
+            patchedInstances.Add(Assembly.GetCallingAssembly(), thisHarmony);
 
             return thisHarmony;
         }
@@ -31,8 +35,23 @@ namespace Cardboard.Utils
         {
             Harmony thisHarmony = new Harmony(GUID);
             thisHarmony.PatchAll(Assembly.GetCallingAssembly());
-            
+
             return thisHarmony;
+        }
+
+
+        /// <summary>
+        /// Unpatches the calling assembly.
+        /// </summary>
+        public static void UnpatchInstance()
+        {
+            Assembly searchingAssembly = Assembly.GetCallingAssembly();
+            Harmony patchedInstance = null;
+
+            patchedInstances.TryGetValue(searchingAssembly, out patchedInstance);
+
+            if (patchedInstance != null)
+                patchedInstance.UnpatchSelf();
         }
 
         /// <summary>
