@@ -12,11 +12,11 @@ namespace Cardboard.Utils
         /// Attempts to invoke the provided MethodInfo.
         /// </summary>
         /// <param name="_toInvoke">MethodInfo to try and invoke.</param>
-        public static void TryInvoke(MethodInfo _toInvoke)
+        public static void TryInvoke<T>(MethodInfo _toInvoke)
         {
             try
             {
-                _toInvoke.Invoke(null, null);
+                _toInvoke.Invoke(typeof(T), null);
             }
             catch { };
         }

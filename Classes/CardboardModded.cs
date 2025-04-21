@@ -6,6 +6,7 @@ using Cardboard.Utils;
 
 using Photon.Pun;
 using GorillaNetworking;
+using System.Linq;
 
 namespace Cardboard.Classes
 {
@@ -20,16 +21,21 @@ namespace Cardboard.Classes
         {
             List<MethodInfo> Attributes = new List<MethodInfo>();
 
-            foreach (Assembly assembly in Assemblies)
-            {
-                Attributes.AddRange(mType == ModdedEventType.ModdedJoin
-                                             ? Method.FindCaseOfAttribute<CardboardModdedJoin>(assembly)
-                                             : Method.FindCaseOfAttribute<CardboardModdedLeave>(assembly)
-                );
-            }
+            var methods = Assemblies
+                        .SelectMany(x => x.GetTypes())
+                        .Where(x => x.IsClass)
+                        .SelectMany(x => x.GetMethods())
+                        .Where(x => x.GetCustomAttributes(
+                            mType == ModdedEventType.ModdedJoin ? typeof(CardboardModdedJoin) : typeof(CardboardModdedLeave), 
+                            false)
+                        .FirstOrDefault() != null
+            );
 
-            foreach (MethodInfo me in Attributes)
-                Method.TryInvoke(me);
+            foreach (var method in methods)
+            {
+                var obj = Activator.CreateInstance(method.DeclaringType);
+                method.Invoke(obj, null);
+            }
         }
     }
 
