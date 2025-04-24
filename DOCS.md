@@ -6,25 +6,27 @@ In these docs, it is organized by namespace.
 > If these docs are not up to date, all summaries of the mods are up-to-date, so your Visual Studio install can tell you what functions do.
 
 # Classes
-## CardboardModdedHandler
+## CardboardModded
 - **Description**:
-An attribute providing modded functionality from most Utilla forks. If Utilla is not installed, Cardboard will manage the modded room functionality itself.
-It deals with the attributes `CardboardModdedJoin` and `CardboardModdedLeave`.
+A class providing modded functionality from most Utilla forks. If Utilla is not installed, Cardboard will manage the modded room functionality itself.
+To use it, subscribe a modded join function to delegates `ModdedJoin` and `ModdedLeave`.
 - **Example**:
     ```cs
     using Cardboard.Classes;
     using BepInEx;
 
-    [CardboardModdedHandler]
     public class MyGamemodeHandler : MonoBehaviour
     {
         bool inModded = false;
 
-        [CardboardModdedJoin]
         public void ModdedJoin() => inModded = true;
-
-        [CardboardModdedLeave]
         public void ModdedLeave() => inModded = false;
+
+        public void Start()
+        {
+            CardboardModded.ModdedJoin += ModdedJoin;
+            CardboardModded.ModdedLeave += ModdedLeave;
+        }
 
         public void Update()
         {
@@ -112,29 +114,6 @@ Handles controller inputs.
         }
     }
     ```
-## Method
-### `void` `TryInvoke(MethodInfo _methodInfo)`
-- **Description**: Attempt to invoke `_methodInfo` with no arguments.
-- **Example**:
-    ```cs
-    MethodInfo UpdateMethodInfo;
-    
-    void Update()
-    {
-        if (UpdateEnabled)
-            Method.TryInvoke(UpdateMethodInfo);
-    }
-    ```
-### `List<MethodInfo> FindCaseOfAttribute<T>()`
-- **Description**: Get all methods that have attribute `T`.
-- **Example**
-    ```
-    public class ExampleThingy : Attribute
-    public List<MethodInfo> methods = Method.FindCaseOfAttribute<ExampleThingy>();
-    ```
-- **Overloads**:
-    - `FindCaseOfAttribute<T>()`
-    - `FindCaseOfAttribute<T>(Assembly _assembly)`
 
 ## CardboardAssetLoader
 Loads assets, big shocker
