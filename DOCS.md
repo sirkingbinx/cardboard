@@ -67,18 +67,21 @@ Patches the `BaseUnityPlugin` provided and returns the `Harmony` class used to p
     - ``PatchInstance(BepInPlugin _instance)``
     - ``PatchInstance(string _UUID)``
 
-### `void` `CardboardHarmony.UnpatchInstance(Harmony _instance)`
+### `void` `CardboardHarmony.UnpatchInstance()`
 - **Description**:
-    Removes patches for the `_instance` of `Harmony`.
+    Removes patches for the calling assembly.
 - **Example**:
     ```cs
     Harmony thisInstance;
 
     void OnEnable() => thisInstance = CardboardHarmony.PatchInstance(this);
 
-    // Only implemented when using CI/GorillaComputer
-    void OnDisable() => CardboardHarmony.UnpatchInstance(thisInstance);
+    // NOTES: OnDisable() is only implemented when using CI/GorillaComputer.
+    void OnDisable() => CardboardHarmony.UnpatchInstance();
     ```
+- **Overloads**:
+    - ``UnpatchInstance(Harmony _instance)``
+
 ## Player
 Player-based stuff.
 ### `bool` `Steam`
