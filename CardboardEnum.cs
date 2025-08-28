@@ -24,4 +24,13 @@ namespace Cardboard
         ModdedJoin,
         ModdedLeave,
     }
+
+    /// <summary>
+    /// Used to define the player's platform.
+    /// </summary>
+    public enum GamePlatform {
+        Steam,
+        OculusRift,
+        OculusQuest,
+    }
 }

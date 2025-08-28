@@ -17,6 +17,10 @@ To use it, subscribe a modded join function to delegates `ModdedJoin` and `Modde
 
     public class MyGamemodeHandler : MonoBehaviour
     {
+        /*
+        CardboardModded now provides a variable for checking if the lobby is modded.
+        :: CardboardModded.IsModded
+
         bool inModded = false;
 
         public void ModdedJoin() => inModded = true;
@@ -24,19 +28,32 @@ To use it, subscribe a modded join function to delegates `ModdedJoin` and `Modde
 
         public void Start()
         {
-            CardboardModded.ModdedJoin += ModdedJoin;
-            CardboardModded.ModdedLeave += ModdedLeave;
+            CardboardModded.ModdedJoin += ModdedJoin
+            CardboardModded.ModdedLeave += ModdedLeave
         }
+        */
 
         public void Update()
         {
-            if (inModded)
+            if (CardboardModded.IsModded)
             {
                 // Do your modded stuff here
             }
         }
     }
     ```
+
+### `bool` `IsModded`
+- **Description**:
+Represents if the current lobby is a modded lobby.
+
+### `Action` `ModdedJoin`
+- **Description**:
+All delegates of `ModdedJoin` are called when the player joins a modded lobby.
+
+### `Action` `ModdedLeave`
+- **Description**:
+All delegates of `ModdedLeave` are called when the player leaves a modded lobby.
 
 # Utils
 ## CardboardHarmony

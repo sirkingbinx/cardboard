@@ -12,7 +12,7 @@ namespace Cardboard.Classes
 {
     public class CardboardModded
     {
-        internal static bool ModdedLobby { get; private set; }
+        internal static bool IsModded { get; private set; }
 
         /// <summary>
         /// Modded join events go here
@@ -24,12 +24,14 @@ namespace Cardboard.Classes
         /// </summary>
         public static event Action ModdedLeave = delegate { };
 
-        public static void CallModdedEvent(ModdedEventType mType)
+        internal static void CallModdedEvent(ModdedEventType mType)
         {
             if (mType == ModdedEventType.ModdedJoin)
                 ModdedJoin();
-            else if (ModdedLobby && mType == ModdedEventType.ModdedLeave)
+            else if (IsModded && mType == ModdedEventType.ModdedLeave)
                 ModdedLeave();
+            
+            IsModded = (mType == ModdedEventType.ModdedJoin)
         }
     }
 }
