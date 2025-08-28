@@ -101,14 +101,14 @@ Patches the `BaseUnityPlugin` provided and returns the `Harmony` class used to p
 
 ## Player
 Player-based stuff.
-> [!WARNING]
-> This is deprecated, please use `GamePlatform` `Platform` instead.
 ### `bool` `Steam`
 - **Description**: Value representing if the player is playing on SteamVR. `false` if playing on Oculus Rift.
 - **Example**: No.
+> [!WARNING]
+> `bool` `Steam` is deprecated, please use `GamePlatform` `Platform` instead.
 
 ### `GamePlatform` `Platform`
-- **Description**: 
+- **Description**: Represents the platform the player is using.
 - **Example**:
 ```cs
 if (Platform == GamePlatform.Steam)
