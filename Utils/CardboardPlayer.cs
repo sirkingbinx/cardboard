@@ -3,7 +3,7 @@ using GorillaNetworking;
 
 namespace Cardboard.Utils
 {
-    public class Player
+    public class CardboardPlayer
     {
         [Obsolete("This is deprecated. Please use Platform instead.")]
         public static bool Steam { get; internal set; }
@@ -12,5 +12,11 @@ namespace Cardboard.Utils
         /// Represents the platform the player is using.
         /// </summary>
         public static GamePlatform Platform;
+    }
+
+    [Obsolete("This is deprecated. Please use CardboardPlayer instead.")]
+    public class Player {
+        [Obsolete("This is deprecated. Please use CardboardPlayer.Platform instead.")]
+        public static bool Steam { get; internal set; }
     }
 }
