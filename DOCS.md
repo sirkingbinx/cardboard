@@ -99,14 +99,8 @@ Patches the `BaseUnityPlugin` provided and returns the `Harmony` class used to p
 - **Overloads**:
     - ``UnpatchInstance(Harmony _instance)``
 
-## Player
+## CardboardPlayer
 Player-based stuff.
-### `bool` `Steam`
-- **Description**: Value representing if the player is playing on SteamVR. `false` if playing on Oculus Rift.
-- **Example**: No.
-> [!WARNING]
-> `bool` `Steam` is deprecated, please use `GamePlatform` `Platform` instead.
-
 ### `GamePlatform` `Platform`
 - **Description**: Represents the platform the player is using.
 - **Example**:
