@@ -2,6 +2,7 @@
 using Cardboard.Start;
 using System.Collections.Generic;
 using Cardboard.Classes;
+using Cardboard.Utils;
 
 namespace Cardboard.Internals
 {
@@ -19,14 +20,14 @@ namespace Cardboard.Internals
             string platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
             
             if (platformTag.Contains("steam")) {
-                Utils.Player.Platform = GamePlatform.Steam
+                CardboardPlayer.Platform = GamePlatform.Steam
             } else if (platformTag.Contains("oculus")) {
-                Utils.Player.Platform = GamePlatform.OculusRift
+                CardboardPlayer.Platform = GamePlatform.OculusRift
             } else {
-                Utils.Player.Platform = GamePlatform.OculusQuest
+                CardboardPlayer.Platform = GamePlatform.OculusQuest
             }
         }
 
-        Utils.Player.Steam = Utils.Player.Platform == GamePlatform.Steam
+        CardboardPlayer.Steam = CardboardPlayer.Platform == GamePlatform.Steam
     }
 }
