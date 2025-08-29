@@ -9,9 +9,9 @@ namespace Cardboard.Internals
     /// <summary>
     /// This is an internal class. Don't use functions from here.
     /// </summary>
-    public class CardboardManager : MonoBehaviour
+    internal class CardboardManager : MonoBehaviour
     {
-        public static CardboardManager instance { get; private set; }
+        internal static CardboardManager instance { get; private set; }
 
         void Start()
         {
@@ -20,14 +20,14 @@ namespace Cardboard.Internals
             string platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
             
             if (platformTag.Contains("steam")) {
-                CardboardPlayer.Platform = GamePlatform.Steam
+                CardboardPlayer.Platform = GamePlatform.Steam;
             } else if (platformTag.Contains("oculus")) {
-                CardboardPlayer.Platform = GamePlatform.OculusRift
+                CardboardPlayer.Platform = GamePlatform.OculusRift;
             } else {
-                CardboardPlayer.Platform = GamePlatform.OculusQuest
+                CardboardPlayer.Platform = GamePlatform.OculusQuest;
             }
         }
 
-        CardboardPlayer.Steam = CardboardPlayer.Platform == GamePlatform.Steam
+        CardboardPlayer.Steam = CardboardPlayer.Platform == GamePlatform.Steam;
     }
 }
