@@ -23,7 +23,7 @@ namespace Cardboard
     public enum ModdedEventType {
         ModdedJoin,
         ModdedLeave,
-    }
+    };
 
     /// <summary>
     /// Used to define the player's platform.
@@ -32,5 +32,5 @@ namespace Cardboard
         Steam,
         OculusRift,
         OculusQuest,
-    }
+    };
 }

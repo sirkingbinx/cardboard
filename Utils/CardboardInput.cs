@@ -1,5 +1,3 @@
-using UnityEngine;
-using GorillaLocomotion;
 using Valve.VR;
 using UnityEngine.XR;
 
@@ -24,9 +22,9 @@ namespace Cardboard.Utils
                 case InputType.leftTrigger: return ControllerInputPoller.instance.leftControllerIndexFloat > 0.5f;
                 case InputType.leftGrip: return ControllerInputPoller.instance.leftControllerGripFloat > 0.5f;
                 case InputType.leftStick:
-                    if (Player.Steam)
+                    if (CardboardPlayer.Platform == GamePlatform.Steam)
                         temporarySClick = SteamVR_Actions.gorillaTag_LeftJoystickClick.state;
-                    else
+                    else if (CardboardPlayer.Platform == GamePlatform.OculusRift)
                         InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxisClick, out temporarySClick);
 
                     return temporarySClick;
@@ -37,9 +35,9 @@ namespace Cardboard.Utils
                 case InputType.rightTrigger: return ControllerInputPoller.instance.rightControllerIndexFloat > 0.5f;
                 case InputType.rightGrip: return ControllerInputPoller.instance.rightControllerGripFloat > 0.5f;
                 case InputType.rightStick:
-                    if (Player.Steam)
+                    if (CardboardPlayer.Platform == GamePlatform.Steam)
                         temporarySClick = SteamVR_Actions.gorillaTag_RightJoystickClick.state;
-                    else
+                    else if (CardboardPlayer.Platform == GamePlatform.OculusRift)
                         InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxisClick, out temporarySClick);
 
                     return temporarySClick;

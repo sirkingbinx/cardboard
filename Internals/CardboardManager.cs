@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using Cardboard.Start;
-using System.Collections.Generic;
-using Cardboard.Classes;
 using Cardboard.Utils;
+using GorillaNetworking;
 
 namespace Cardboard.Internals
 {
@@ -27,7 +25,5 @@ namespace Cardboard.Internals
                 CardboardPlayer.Platform = GamePlatform.OculusQuest;
             }
         }
-
-        CardboardPlayer.Steam = CardboardPlayer.Platform == GamePlatform.Steam;
     }
 }

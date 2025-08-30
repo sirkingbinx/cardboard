@@ -27,8 +27,29 @@
 		<Reference Include="Photon3Unity3D">
 		  <HintPath>$(GameAssemblyPath)\Photon3Unity3D.dll</HintPath>
 		</Reference>
+		<Reference Include="PhotonRealtime">
+		  <HintPath>$(GameAssemblyPath)\PhotonRealtime.dll</HintPath>
+		</Reference>
 		<Reference Include="PhotonUnityNetworking">
 		  <HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.dll</HintPath>
+		</Reference>
+		<Reference Include="PhotonUnityNetworking.Utilities">
+		  <HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.Utilities.dll</HintPath>
+		</Reference>
+		<Reference Include="PhotonVoice">
+		  <HintPath>$(GameAssemblyPath)\PhotonVoice.dll</HintPath>
+		</Reference>
+		<Reference Include="PhotonVoice.API">
+		  <HintPath>$(GameAssemblyPath)\PhotonVoice.API.dll</HintPath>
+		</Reference>
+		<Reference Include="PhotonVoice.Fusion">
+		  <HintPath>$(GameAssemblyPath)\PhotonVoice.Fusion.dll</HintPath>
+		</Reference>
+		<Reference Include="PhotonVoice.PUN">
+		  <HintPath>$(GameAssemblyPath)\PhotonVoice.PUN.dll</HintPath>
+		</Reference>
+		<Reference Include="PlayFab">
+		  <HintPath>$(GameAssemblyPath)\PlayFab.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.InputSystem">
 		  <HintPath>$(GameAssemblyPath)\Unity.InputSystem.dll</HintPath>

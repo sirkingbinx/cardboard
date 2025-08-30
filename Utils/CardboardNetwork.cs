@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 
 namespace Cardboard.Utils
@@ -21,7 +22,7 @@ namespace Cardboard.Utils
         /// </summary>
         /// <returns>The custom properties list of the LocalPlayer.</returns>
         public static Hashtable GetProperties() =>
-            PhotonNetwork.LocalPlayer.GetPlayerRef().CustomProperties;
+            PhotonNetwork.LocalPlayer.CustomProperties;
 
         /// <summary>
         /// Returns the properties of the provided NetPlayer.
@@ -37,7 +38,7 @@ namespace Cardboard.Utils
         /// <param name="player">The player to get the properties for.</param>
         /// <returns>Value of the key in properties</returns>
         public static object GetPlayerProperty(string key) =>
-            PhotonNetwork.LocalPlayer.GetPlayerRef().CustomProperties[key];
+            PhotonNetwork.LocalPlayer.CustomProperties[key];
 
         /// <summary>
         /// Returns the value of the provided key in the player's properties.

@@ -3,12 +3,12 @@ using UnityEngine;
 using Cardboard.Utils;
 using Cardboard.Internals;
 
-namespace Cardboard.Start
+namespace Cardboard
 {
     [BepInPlugin("kingbingus.cardboard", "Cardboard", "1.0.0")]
-    public class Bootstrap : BaseUnityPlugin
+    public class Main : BaseUnityPlugin
     {
-        public static Bootstrap instance;
+        public static Main instance;
 
         void Start()
         {

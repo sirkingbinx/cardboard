@@ -1,5 +1,4 @@
-using HarmonyLib;
-using GorillaNetworking;
+using System;
 
 namespace Cardboard.Utils
 {
@@ -11,7 +10,7 @@ namespace Cardboard.Utils
         /// <summary>
         /// Represents the platform the player is using.
         /// </summary>
-        public static GamePlatform Platform;
+        public static GamePlatform Platform { get; internal set; }
     }
 
     [Obsolete("This is deprecated. Please use CardboardPlayer instead.")]

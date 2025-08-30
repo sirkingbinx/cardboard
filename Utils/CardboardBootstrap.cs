@@ -1,5 +1,4 @@
-﻿using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 
 namespace Cardboard.Utils
 {
