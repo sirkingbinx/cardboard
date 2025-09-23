@@ -32,5 +32,6 @@ namespace Cardboard
         Steam,
         OculusRift,
         OculusQuest,
+        None,
     };
 }

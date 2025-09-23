@@ -24,6 +24,8 @@ namespace Cardboard.Internals
             } else {
                 CardboardPlayer.Platform = GamePlatform.OculusQuest;
             }
+
+            CardboardConfig.UpdateConfig();
         }
     }
 }
