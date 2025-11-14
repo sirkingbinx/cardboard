@@ -4,7 +4,13 @@ namespace Cardboard.Classes
 {
     public class CardboardModded
     {
-        internal static bool IsModded { get; private set; }
+        /// <summary>
+        /// Designates whether the room the player is currently in is a modded room.
+        /// </summary>
+        public static bool IsModded
+        {
+            get => NetworkSystem.Instance.GameModeString.Contains("MODDED");
+        }
 
         /// <summary>
         /// Modded join events go here
@@ -22,8 +28,6 @@ namespace Cardboard.Classes
                 ModdedJoin();
             else if (IsModded && mType == ModdedEventType.ModdedLeave)
                 ModdedLeave();
-
-            IsModded = (mType == ModdedEventType.ModdedJoin);
         }
     }
 }

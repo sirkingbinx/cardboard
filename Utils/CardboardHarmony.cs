@@ -11,6 +11,7 @@ namespace Cardboard.Utils
     public class CardboardHarmony
     {
         private static Dictionary<Assembly, Harmony> patchedInstances = new Dictionary<Assembly, Harmony>();
+        
         /// <summary>
         /// Patches the BaseUnityPlugin provided and returns the Harmony class used to patch the plugin.
         /// </summary>

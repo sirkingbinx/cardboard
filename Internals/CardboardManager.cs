@@ -17,9 +17,9 @@ namespace Cardboard.Internals
 
             string platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
             
-            if (platformTag.ToLower().Contains("steam")) {
+            if (platformTag.Contains("steam")) {
                 CardboardPlayer.Platform = GamePlatform.Steam;
-            } else if (platformTag.ToLower().Contains("pc")) {
+            } else if (platformTag.Contains("pc")) {
                 CardboardPlayer.Platform = GamePlatform.OculusRift;
             } else {
                 CardboardPlayer.Platform = GamePlatform.OculusQuest;
