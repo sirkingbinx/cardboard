@@ -20,8 +20,8 @@ namespace Cardboard.Utils
         public static Harmony PatchInstance(BaseUnityPlugin _instance)
         {
             Harmony thisHarmony = new Harmony(_instance.Info.Metadata.GUID);
-            thisHarmony.PatchAll(Assembly.GetCallingAssembly());
-            patchedInstances.Add(Assembly.GetCallingAssembly(), thisHarmony);
+            thisHarmony.PatchAll(Assembly.GetAssembly(typeof(_instance)));
+            patchedInstances.Add(Assembly.GetAssembly(typeof(_instance)), thisHarmony);
 
             return thisHarmony;
         }
@@ -29,12 +29,26 @@ namespace Cardboard.Utils
         /// <summary>
         /// Patches the assembly based on the GUID provided and returns the Harmony class used to patch the plugin.
         /// </summary>
-        /// <param name="_instance">The mod GUID.</param>
+        /// <param name="GUID">The mod GUID.</param>
         /// <returns>The Harmony instance that was used to patch it.</returns>
         public static Harmony PatchInstance(string GUID)
         {
             Harmony thisHarmony = new Harmony(GUID);
             thisHarmony.PatchAll(Assembly.GetCallingAssembly());
+
+            return thisHarmony;
+        }
+
+        /// <summary>
+        /// Patches the assembly based on the GUID and Assembly provided and returns the Harmony class used to patch the plugin.
+        /// </summary>
+        /// <param name="GUID">The mod GUID.</param>
+        /// <param name="_asm">The assembly to patch.</param>
+        /// <returns>The Harmony instance that was used to patch it.</returns>
+        public static Harmony PatchInstance(string GUID, Assembly _asm)
+        {
+            Harmony thisHarmony = new Harmony(GUID);
+            thisHarmony.PatchAll(_asm);
 
             return thisHarmony;
         }
