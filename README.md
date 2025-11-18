@@ -10,6 +10,4 @@ Cardboard comes with a pretty cool featureset, including:
 For the full list of features, [see the documentation](https://github.com/sirkingbinx/cardboard/wiki/Home).
 
 ## Installation
-You can download [the latest release here](https://github.com/sirkingbinx/cardboard/releases/latest), or [use BinxModManager](https://github.com/sirkingbinx/BinxModManager)
-> [!NOTE]
-> Source URL: `https://raw.githubusercontent.com/sirkingbinx/cardboard/master/CardboardRelease.json`
+You can download [the latest release here](https://github.com/sirkingbinx/cardboard/releases/latest).

@@ -31,7 +31,6 @@ namespace Cardboard
     public enum GamePlatform {
         Steam,
         OculusRift,
-        OculusQuest,
         None,
     };
 }

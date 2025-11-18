@@ -46,84 +46,16 @@ namespace Cardboard.Utils
             return false;
         }
 
-        /// <summary>
-        /// Indicates if the controller's left primary is being held down.
-        /// </summary>
-        public static bool leftPrimary
-        {
-            get => GetValue(InputType.leftPrimary);
-        }
+        public static bool leftPrimary => GetValue(InputType.leftPrimary);
+        public static bool leftSecondary => GetValue(InputType.leftSecondary);
+        public static bool leftTrigger => GetValue(InputType.leftTrigger);
+        public static bool leftGrip => GetValue(InputType.leftGrip);
+        public static bool leftStick => GetValue(InputType.leftStick);
 
-        /// <summary>
-        /// Indicates if the controller's left secondary is being held down.
-        /// </summary>
-        public static bool leftSecondary
-        {
-            get => GetValue(InputType.leftSecondary);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's left trigger is being pressed in.
-        /// </summary>
-        public static bool leftTrigger
-        {
-            get => GetValue(InputType.leftTrigger);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's left grip is being pressed in.
-        /// </summary>
-        public static bool leftGrip
-        {
-            get => GetValue(InputType.leftGrip);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's left joystick is being held down.
-        /// </summary>
-        public static bool leftStick
-        {
-            get => GetValue(InputType.leftStick);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's right primary is being held down.
-        /// </summary>
-        public static bool rightPrimary
-        {
-            get => GetValue(InputType.rightPrimary);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's right secondary is being held down.
-        /// </summary>
-        public static bool rightSecondary
-        {
-            get => GetValue(InputType.rightSecondary);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's right trigger is being pressed in.
-        /// </summary>
-        public static bool rightTrigger
-        {
-            get => GetValue(InputType.rightTrigger);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's right grip is being pressed in.
-        /// </summary>
-        public static bool rightGrip
-        {
-            get => GetValue(InputType.rightGrip);
-        }
-
-        /// <summary>
-        /// Indicates if the controller's right joystick is being held down.
-        /// </summary>
-        public static bool rightStick
-        {
-            get => GetValue(InputType.rightStick);
-        }
+        public static bool rightPrimary => GetValue(InputType.rightPrimary);
+        public static bool rightSecondary => GetValue(InputType.rightSecondary);
+        public static bool rightTrigger => GetValue(InputType.rightTrigger);
+        public static bool rightGrip => GetValue(InputType.rightGrip);
+        public static bool rightStick => GetValue(InputType.rightStick);
     }
 }

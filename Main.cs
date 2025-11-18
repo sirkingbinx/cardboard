@@ -5,7 +5,7 @@ using Cardboard.Internals;
 
 namespace Cardboard
 {
-    [BepInPlugin("kingbingus.cardboard", "Cardboard", "1.1.0")]
+    [BepInPlugin("bingus.cardboard", "Cardboard", "1.1.0")]
     public class Main : BaseUnityPlugin
     {
         public static Main instance;
