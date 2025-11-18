@@ -3,98 +3,99 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<LangVersion>14.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Content\**" />
-	  <EmbeddedResource Remove="Content\**" />
-	  <None Remove="Content\**" />
+		<Compile Remove="Content\**" />
+		<EmbeddedResource Remove="Content\**" />
+		<None Remove="Content\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="0Harmony">
-		  <HintPath>$(BepInExAssemblyPath)\0Harmony.dll</HintPath>
+			<HintPath>$(BepInExAssemblyPath)\0Harmony.dll</HintPath>
 		</Reference>
 		<Reference Include="Assembly-CSharp">
-		  <HintPath>$(GameAssemblyPath)\Assembly-CSharp.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Assembly-CSharp.dll</HintPath>
 		</Reference>
 		<Reference Include="BepInEx">
-		  <HintPath>$(BepInExAssemblyPath)\BepInEx.dll</HintPath>
+			<HintPath>$(BepInExAssemblyPath)\BepInEx.dll</HintPath>
 		</Reference>
 		<Reference Include="Meta.XR.BuildingBlocks">
-		  <HintPath>$(GameAssemblyPath)\Meta.XR.BuildingBlocks.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Meta.XR.BuildingBlocks.dll</HintPath>
 		</Reference>
 		<Reference Include="Photon3Unity3D">
-		  <HintPath>$(GameAssemblyPath)\Photon3Unity3D.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Photon3Unity3D.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonRealtime">
-		  <HintPath>$(GameAssemblyPath)\PhotonRealtime.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonRealtime.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonUnityNetworking">
-		  <HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonUnityNetworking.Utilities">
-		  <HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.Utilities.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonUnityNetworking.Utilities.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonVoice">
-		  <HintPath>$(GameAssemblyPath)\PhotonVoice.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonVoice.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonVoice.API">
-		  <HintPath>$(GameAssemblyPath)\PhotonVoice.API.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonVoice.API.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonVoice.Fusion">
-		  <HintPath>$(GameAssemblyPath)\PhotonVoice.Fusion.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonVoice.Fusion.dll</HintPath>
 		</Reference>
 		<Reference Include="PhotonVoice.PUN">
-		  <HintPath>$(GameAssemblyPath)\PhotonVoice.PUN.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PhotonVoice.PUN.dll</HintPath>
 		</Reference>
 		<Reference Include="PlayFab">
-		  <HintPath>$(GameAssemblyPath)\PlayFab.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\PlayFab.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.InputSystem">
-		  <HintPath>$(GameAssemblyPath)\Unity.InputSystem.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Unity.InputSystem.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.XR.CoreUtils">
-		  <HintPath>$(GameAssemblyPath)\Unity.XR.CoreUtils.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Unity.XR.CoreUtils.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.XR.Interaction.Toolkit">
-		  <HintPath>$(GameAssemblyPath)\Unity.XR.Interaction.Toolkit.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Unity.XR.Interaction.Toolkit.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.XR.Management">
-		  <HintPath>$(GameAssemblyPath)\Unity.XR.Management.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Unity.XR.Management.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.XR.Oculus">
-		  <HintPath>$(GameAssemblyPath)\Unity.XR.Oculus.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\Unity.XR.Oculus.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.AssetBundleModule">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.AssetBundleModule.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.AssetBundleModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.CoreModule.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.SubsystemsModule">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.SubsystemsModule.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.SubsystemsModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.UI">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.UI.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.UI.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.XR.LegacyInputHelpers">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.XRModule">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.XRModule.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.XRModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.InputLegacyModule">
-		  <HintPath>$(GameAssemblyPath)\UnityEngine.InputLegacyModule.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\UnityEngine.InputLegacyModule.dll</HintPath>
 		</Reference>
 		<Reference Include="SteamVR">
-		  <HintPath>$(GameAssemblyPath)\SteamVR.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\SteamVR.dll</HintPath>
 		</Reference>
 		<Reference Include="SteamVR_Actions">
-		  <HintPath>$(GameAssemblyPath)\SteamVR_Actions.dll</HintPath>
+			<HintPath>$(GameAssemblyPath)\SteamVR_Actions.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 </Project>

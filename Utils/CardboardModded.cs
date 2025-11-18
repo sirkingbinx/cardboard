@@ -1,6 +1,6 @@
 using System;
 
-namespace Cardboard.Classes
+namespace Cardboard.Utils
 {
     public static class CardboardModded
     {
