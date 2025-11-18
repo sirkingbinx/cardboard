@@ -7,7 +7,7 @@ namespace Cardboard.Internals
     /// <summary>
     /// This is an internal class. Don't use functions from here.
     /// </summary>
-    internal class CardboardConfig
+    internal static class CardboardConfig
     {
         internal static void UpdateConfig()
         {

@@ -2,7 +2,7 @@ using System;
 
 namespace Cardboard.Utils
 {
-    public class CardboardPlayer
+    public static class CardboardPlayer
     {
         /// <summary>
         /// Represents the platform the player is using.

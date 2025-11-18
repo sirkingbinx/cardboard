@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cardboard.Utils
 {
-    public class CardboardAssetLoader
+    public static class CardboardAssetLoader
     {
         [Obsolete("Please use CardboardAssetLoader.LoadGameObject().")]
         public static GameObject Load(string _path, string _name) =>
@@ -29,7 +29,7 @@ namespace Cardboard.Utils
         /// </summary>
         public static Font LoadFont(string _path)
         {
-            
+            // TODO
         }
     }
 }

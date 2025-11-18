@@ -9,12 +9,12 @@ namespace Cardboard
     public class Main : BaseUnityPlugin
     {
         public static Main instance;
+        public static GameObject cardboardObject;
 
         void Start()
         {
             instance = this;
-            CardboardHarmony.PatchInstance(this);
-            new GameObject("CardboardManager", typeof(CardboardManager));
+            cardboardObject = new GameObject("Cardboard", typeof(CardboardManager));
         }
     }
 }

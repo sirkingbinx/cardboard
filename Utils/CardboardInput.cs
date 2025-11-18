@@ -1,9 +1,10 @@
 using Valve.VR;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace Cardboard.Utils
 {
-    public class Input
+    public static class Input
     {
         /// <summary>
         /// Gets the value of the specified InputType.
@@ -46,16 +47,29 @@ namespace Cardboard.Utils
             return false;
         }
 
+        public static dynamic GetValue(SpecialInputType _inputType) {
+            switch (_inputType) {
+                case SpecialInputType.leftThumbstickAxis:
+                    return ControllerInputPoller.instance.leftPrimary2DAxis;
+                case SpecialInputType.rightThumbstickAxis:
+                    return ControllerInputPoller.instance.rightPrimary2DAxis;
+            }
+
+            return false;
+        }
+
         public static bool leftPrimary => GetValue(InputType.leftPrimary);
         public static bool leftSecondary => GetValue(InputType.leftSecondary);
         public static bool leftTrigger => GetValue(InputType.leftTrigger);
         public static bool leftGrip => GetValue(InputType.leftGrip);
         public static bool leftStick => GetValue(InputType.leftStick);
+        public static Vector2 leftAxis => GetValue(SpecialInputType.leftThumbstickAxis);
 
         public static bool rightPrimary => GetValue(InputType.rightPrimary);
         public static bool rightSecondary => GetValue(InputType.rightSecondary);
         public static bool rightTrigger => GetValue(InputType.rightTrigger);
         public static bool rightGrip => GetValue(InputType.rightGrip);
         public static bool rightStick => GetValue(InputType.rightStick);
+        public static Vector2 rightAxis => GetValue(SpecialInputType.rightThumbstickAxis);
     }
 }

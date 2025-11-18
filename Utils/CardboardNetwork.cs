@@ -6,7 +6,7 @@ namespace Cardboard.Utils
     /// <summary>
     /// Util class for networking properties.
     /// </summary>
-    public class CardboardNetwork
+    public static class CardboardNetwork
     {
         /// <summary>
         /// Adds a property to the PhotonNetwork LocalPlayer.

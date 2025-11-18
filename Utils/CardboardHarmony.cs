@@ -8,7 +8,7 @@ namespace Cardboard.Utils
     /// <summary>
     /// A class providing simple Harmony patching.
     /// </summary>
-    public class CardboardHarmony
+    public static class CardboardHarmony
     {
         private static Dictionary<Assembly, Harmony> patchedInstances = new Dictionary<Assembly, Harmony>();
         
@@ -59,10 +59,7 @@ namespace Cardboard.Utils
         /// </summary>
         public static void UnpatchInstance()
         {
-            Assembly searchingAssembly = Assembly.GetCallingAssembly();
-            Harmony patchedInstance = null;
-
-            patchedInstances.TryGetValue(searchingAssembly, out patchedInstance);
+            patchedInstances.TryGetValue(Assembly.GetCallingAssembly(), out Harmony patchedInstance);
 
             if (patchedInstance != null)
                 patchedInstance.UnpatchSelf();

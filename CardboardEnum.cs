@@ -17,6 +17,11 @@ namespace Cardboard
         rightStick,
     };
 
+    public enum SpecialInputType {
+        leftThumbstickAxis,
+        rightThumbstickAxis,
+    }
+
     /// <summary>
     /// Used to define modded events.
     /// </summary>

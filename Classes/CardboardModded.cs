@@ -2,7 +2,7 @@ using System;
 
 namespace Cardboard.Classes
 {
-    public class CardboardModded
+    public static class CardboardModded
     {
         /// <summary>
         /// Designates whether the room the player is currently in is a modded room.
