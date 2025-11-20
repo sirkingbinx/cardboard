@@ -14,20 +14,24 @@ namespace Cardboard.Classes {
         public string NickName { get; private set; }
 
         /// <summary>
-        /// The NetPlayer of the player
+        /// The NetPlayer of the player (if they are still in the room)
         /// </summary>
-        public NetPlayer NetUser { get; private set; }
+        public NetPlayer? NetUser => NetworkSystem.Instance.AllNetPlayers.First(player => player.UserId == PhotonUser.UserId);
 
         /// <summary>
-        /// The VRRig of the player (if they are still in the lobby)
+        /// The VRRig of the player (if they are still in the room)
         /// </summary>
-        public VRRig? PlayerRig { get; private set; }
+        public VRRig? Rig => GorillaGameManager.instance.FindPlayerVRRig(NetUser);
 
         /// <summary>
-        /// The Photon player of the player (if they are still in the lobby)
+        /// The Photon realtime player for the user.
         /// </summary>
-        public Photon.Realtime.Player? PhotonUser { get; private set; }
+        public Photon.Realtime.Player PhotonUser => Rig.Creator.GetPlayerRef();
 
-        private PlayerEventArgs();
+        private PlayerEventArgs(string _userId, string _nickname, Photon.Realtime.Player _photonUser) {
+            UserId = _userId;
+            NickName = _nickname;
+            PhotonUser = _photonUser;
+        };
     }
 }

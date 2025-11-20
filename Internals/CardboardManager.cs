@@ -1,8 +1,10 @@
-﻿using UnityEngine;
-using Cardboard.Attributes;
+﻿using Cardboard.Attributes;
+using Cardboard.Classes;
 using Cardboard.Interfaces;
 using Cardboard.Utils;
 using GorillaNetworking;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace Cardboard.Internals
 {
@@ -40,10 +42,21 @@ namespace Cardboard.Internals
             instance = this;
             GorillaTagger.OnPlayerInitialized(OnPlayerSpawned);
             CardboardConfig.UpdateConfig();
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                CardboardPlayer.Environment = SystemEnvironment.Windows;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                CardboardPlayer.Environment = SystemEnvironment.Linux;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                CardboardPlayer.Environment = SystemEnvironment.Mac;
+            else
+                CardboardPlayer.Environment = SystemEnvironment.Unknown;
         }
 
         void OnPlayerSpawned() {
-            switch (PlayFabAuthenticator.instance.platform.PlatformTag.ToLower()) {
+            var platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
+
+            switch (platformTag) {
                 default:
                 case "steam":
                     CardboardPlayer.Platform = GamePlatform.Steam;
@@ -53,12 +66,12 @@ namespace Cardboard.Internals
                     break;
             }
 
+            Debug.Log($"Cardboard platform: {platformTag} | {CardbordPlayer.Platform}");
+
             var modAssemblies = Chainloader.PluginInfos.Values
 				.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
             var moddedHandlers = modAssemblies.SelectMany(assembly => assembly.GetTypes())
 				.Where(type => typeof(ICardboardModdedHandler).IsAssignableFrom(type) && type.IsClass && !type.IsInterface);
-            var patchAutomatically = modAssemblies.SelectMany(assembly => assembly.GetTypes())
-				.Where(type => type.IsDefined(typeof(CardboardAutoPatch), false) && type.IsClass && type.IsAssignableFrom(typeof(BaseUnityPlugin)) && !type.IsInterface);
 
             foreach (var moddedHandler in moddedHandlers) {
                 var cHandler = Activator.CreateInstance(moddedHandler) as ICardboardModdedHandler;
@@ -66,18 +79,11 @@ namespace Cardboard.Internals
                 CardboardModded.OnModdedJoin += cHandler.OnModdedJoin;
                 CardboardModded.OnModdedLeave += cHandler.OnModdedLeave;
 
-                cHandler.OnPlayerInitialized();
-            }
-
-            foreach (var autoPatch in patchAutomatically) {
-                if (autoPatch != null)
-                    CardboardHarmony.PatchInstance(autoPatch);
-                else
-                    // I'm sorry for this error message.
-                    Debug.LogWarning($"warning - {autoPatch.FullName}: Plugin uses [CardboardAutoPatch] but does not have Cardboard as a hard dependency. Fix this by adding the following attribute to your BaseUnityPlugin:\n\n\t[BepInDependency(\"bingus.cardboard\", DependencyFlags.HardDependency)]\n\n");
+                Debug.Log($"cb: Found instance of ICardboardModdedHandler at {moddedHandler.FullName}")
             }
 
             Debug.Log(welcomeMessage);
+            CardboardEvents.OnPlayerSpawned();
         }
     }
 }

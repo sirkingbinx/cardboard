@@ -12,17 +12,12 @@ namespace Cardboard
      * Cardboard should *require* zero dependencies, but for the mods that we do attempt to
      * support, listing them as a soft dependency makes sure that it loads after us.
      */
+    
     [BepInDependency("org.legoandmars.gorillatag.utilla", DependencyFlags.SoftDependency)]
     [BepInPlugin("bingus.cardboard", "Cardboard", "1.1.0")]
-    public class Main : BaseUnityPlugin
+    private class Main : BaseUnityPlugin
     {
-        public static Main instance;
-        public static GameObject cardboardObject;
-
-        void Start()
-        {
-            instance = this;
-            cardboardObject = new GameObject("Cardboard", typeof(CardboardManager));
-        }
+        private void Start() =>
+            new GameObject("Cardboard", typeof(CardboardManager));
     }
 }

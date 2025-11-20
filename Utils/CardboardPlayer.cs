@@ -10,6 +10,11 @@ namespace Cardboard.Utils
         public static GamePlatform Platform { get; internal set; }
 
         /// <summary>
+        /// The current operating system that the player is using.
+        /// </summary>
+        public static SystemEnvironment Environment { get; internal set; }
+
+        /// <summary>
         /// The transform of the user's left hand.
         /// </summary>
         public static Transform LeftHand {

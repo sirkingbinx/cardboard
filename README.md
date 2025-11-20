@@ -5,7 +5,7 @@ Cardboard comes with a pretty cool featureset, including:
 - **Modded Lobby Handling**: Cardboard has delegates for joining and leaving modded lobbies simular to [Newtilla](https://github.com/Loafiat/Newtilla).
 - **Asset Loading**: Cardboard includes an asset loading class that will load resources for you.
 - **Patching**: Cardboard can handle Harmony Patching to reduce the size of your assemblies.
-- **Input Handling**: Cardboard can handle input from the controllers including pressing on the stick.
+- **Input Handling**: Cardboard can handle and parse input from the controllers.
 
 For the full list of features, [see the documentation](https://github.com/sirkingbinx/cardboard/wiki/Home).
 
