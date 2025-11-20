@@ -26,7 +26,7 @@ namespace Cardboard.Classes {
         /// <summary>
         /// The Photon realtime player for the user.
         /// </summary>
-        public Photon.Realtime.Player PhotonUser => Rig.Creator.GetPlayerRef();
+        public Photon.Realtime.Player PhotonUser { get; private set; }
 
         private PlayerEventArgs(string _userId, string _nickname, Photon.Realtime.Player _photonUser) {
             UserId = _userId;
