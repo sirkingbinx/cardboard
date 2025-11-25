@@ -1,5 +1,6 @@
+using BepInEx.Configuration;
+using Cardboard.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Cardboard.Internals

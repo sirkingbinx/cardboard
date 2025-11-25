@@ -20,7 +20,7 @@ namespace Cardboard.Internals
 
             var RoomEventArgs = new RoomEventArgs(Code, IsModded, IsPrivate, GamemodeString, Players, MasterClient);
 
-            CardboardEvents.OnJoinedRoom(RoomEventArgs);
+            CardboardEvents.FireJoinedRoom(RoomEventArgs);
 
             if (IsModded)
                 CardboardModded.CallModdedEvent(ModdedEventType.ModdedJoin);
@@ -28,16 +28,16 @@ namespace Cardboard.Internals
 
         public override void OnLeftRoom()
         {
-            CardboardEvents.OnLeftRoom();
+            CardboardEvents.FireLeftRoom();
             
             if (CardboardModded.IsModded)
                 CardboardModded.CallModdedEvent(ModdedEventType.ModdedLeave);
         }
 
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player photonPlayer) =>
-            CardboardEvents.OnPlayerJoinedRoom(new PlayerEventArgs(photonPlayer.UserId, photonPlayer.NickName, photonPlayer));
+            CardboardEvents.FirePlayerJoinedRoom(new PlayerEventArgs(photonPlayer.UserId, photonPlayer.NickName, photonPlayer));
 
         public override void OnPlayerLeftRoom(Photon.Realtime.Player photonPlayer) =>
-            CardboardEvents.OnPlayerLeftRoom(new PlayerEventArgs(photonPlayer.UserId, photonPlayer.NickName, photonPlayer));
+            CardboardEvents.FirePlayerLeftRoom(new PlayerEventArgs(photonPlayer.UserId, photonPlayer.NickName, photonPlayer));
     }
 }

@@ -20,8 +20,8 @@ namespace Cardboard.Utils
         public static Harmony PatchInstance(BaseUnityPlugin _instance)
         {
             Harmony thisHarmony = new Harmony(_instance.Info.Metadata.GUID);
-            thisHarmony.PatchAll(Assembly.GetAssembly(typeof(_instance)));
-            patchedInstances.Add(Assembly.GetAssembly(typeof(_instance)), thisHarmony);
+            thisHarmony.PatchAll(Assembly.GetAssembly(_instance.GetType()));
+            patchedInstances.Add(Assembly.GetAssembly(_instance.GetType()), thisHarmony);
 
             return thisHarmony;
         }

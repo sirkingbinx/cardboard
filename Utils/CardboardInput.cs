@@ -1,6 +1,7 @@
 using Valve.VR;
 using UnityEngine;
 using UnityEngine.XR;
+using System;
 
 namespace Cardboard.Utils
 {
@@ -132,7 +133,7 @@ namespace Cardboard.Utils
                 case SpecialInputType.rightThumbstickAxis:
                     return (T)(object)ControllerInputPoller.instance.rightControllerPrimary2DAxis;
                 default:
-                    (T)(object)false;
+                    return (T)(object)false;
             }
         }
 #endregion

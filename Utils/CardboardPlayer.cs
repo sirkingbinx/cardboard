@@ -1,7 +1,11 @@
-using System;
+using GorillaLocomotion;
+using UnityEngine;
 
 namespace Cardboard.Utils
 {
+    /// <summary>
+    /// A utility class for quick access to player data.
+    /// </summary>
     public static class CardboardPlayer
     {
         /// <summary>

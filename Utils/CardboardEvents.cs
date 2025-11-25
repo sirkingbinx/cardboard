@@ -27,13 +27,16 @@ namespace Cardboard.Utils {
         public static event Action<PlayerEventArgs> OnPlayerLeftRoom = delegate { };
 
         /// <summary>
-        /// Called when the master client of the current room is changed.
-        /// </summary>
-        public static event Action<PlayerEventArgs> OnMasterClientChanged = delegate { };
-
-        /// <summary>
         /// Called when both the game and Cardboard are finished loading.
         /// </summary>
         public static event Action OnPlayerSpawned = delegate { };
+
+        internal static void FireJoinedRoom(RoomEventArgs args) => OnJoinedRoom(args);
+        internal static void FireLeftRoom() => OnLeftRoom();
+
+        internal static void FirePlayerJoinedRoom(PlayerEventArgs args) => OnPlayerJoinedRoom(args);
+        internal static void FirePlayerLeftRoom(PlayerEventArgs args) => OnPlayerLeftRoom(args);
+
+        internal static void FirePlayerSpawned() => OnPlayerSpawned();
     }
 }

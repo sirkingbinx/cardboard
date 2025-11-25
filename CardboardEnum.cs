@@ -3,6 +3,7 @@ namespace Cardboard
     /// <summary>
     /// Used in Input classes to signify types of controller buttons.
     /// </summary>
+#pragma warning disable CS1591
     public enum InputType {
         leftPrimary,
         leftSecondary,
@@ -73,4 +74,5 @@ namespace Cardboard
         OculusRift,
         None,
     };
+#pragma warning restore CS1591
 }

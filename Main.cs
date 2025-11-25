@@ -1,6 +1,5 @@
 using BepInEx;
 using UnityEngine;
-using Cardboard.Utils;
 using Cardboard.Internals;
 
 namespace Cardboard
@@ -13,9 +12,12 @@ namespace Cardboard
      * support, listing them as a soft dependency makes sure that it loads after us.
      */
     
-    [BepInDependency("org.legoandmars.gorillatag.utilla", DependencyFlags.SoftDependency)]
+    /// <summary>
+    /// No.
+    /// </summary>
+    [BepInDependency("org.legoandmars.gorillatag.utilla", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin("bingus.cardboard", "Cardboard", "1.1.0")]
-    private class Main : BaseUnityPlugin
+    public class Main : BaseUnityPlugin
     {
         private void Start() =>
             new GameObject("Cardboard", typeof(CardboardManager));

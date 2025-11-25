@@ -1,3 +1,7 @@
+using System.Linq;
+
+#nullable enable
+
 namespace Cardboard.Classes {
     /// <summary>
     /// Arguments provided by player-based events in Cardboard.Utils.CardboardEvents
@@ -28,10 +32,12 @@ namespace Cardboard.Classes {
         /// </summary>
         public Photon.Realtime.Player PhotonUser { get; private set; }
 
-        private PlayerEventArgs(string _userId, string _nickname, Photon.Realtime.Player _photonUser) {
+        internal PlayerEventArgs(string _userId, string _nickname, Photon.Realtime.Player _photonUser) {
             UserId = _userId;
             NickName = _nickname;
             PhotonUser = _photonUser;
-        };
+        }
     }
 }
+
+#nullable disable

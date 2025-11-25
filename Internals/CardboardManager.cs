@@ -1,8 +1,10 @@
-﻿using Cardboard.Attributes;
+﻿using BepInEx.Bootstrap;
 using Cardboard.Classes;
 using Cardboard.Interfaces;
 using Cardboard.Utils;
 using GorillaNetworking;
+using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -40,7 +42,7 @@ namespace Cardboard.Internals
         void Start()
         {
             instance = this;
-            GorillaTagger.OnPlayerInitialized(OnPlayerSpawned);
+            GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
             CardboardConfig.UpdateConfig();
             
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -66,7 +68,7 @@ namespace Cardboard.Internals
                     break;
             }
 
-            Debug.Log($"Cardboard platform: {platformTag} | {CardbordPlayer.Platform}");
+            Debug.Log($"Cardboard platform: {platformTag} | {CardboardPlayer.Platform}");
 
             var modAssemblies = Chainloader.PluginInfos.Values
 				.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
@@ -76,14 +78,14 @@ namespace Cardboard.Internals
             foreach (var moddedHandler in moddedHandlers) {
                 var cHandler = Activator.CreateInstance(moddedHandler) as ICardboardModdedHandler;
 
-                CardboardModded.OnModdedJoin += cHandler.OnModdedJoin;
-                CardboardModded.OnModdedLeave += cHandler.OnModdedLeave;
+                CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
+                CardboardModded.ModdedLeave += cHandler.OnModdedLeave;
 
-                Debug.Log($"cb: Found instance of ICardboardModdedHandler at {moddedHandler.FullName}")
+                Debug.Log($"cb: Found instance of ICardboardModdedHandler at {moddedHandler.FullName}");
             }
 
             Debug.Log(welcomeMessage);
-            CardboardEvents.OnPlayerSpawned();
+            CardboardEvents.FirePlayerSpawned();
         }
     }
 }

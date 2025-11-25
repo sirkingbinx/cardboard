@@ -33,13 +33,13 @@ namespace Cardboard.Classes {
         /// </summary>
         public NetPlayer MasterClient { get; private set; }
 
-        private RoomEventArgs(string _code, bool _isModded, bool _isPrivate, string _gamemodeString, NetPlayer[] _players, NetPlayer _masterClient) {
+        internal RoomEventArgs(string _code, bool _isModded, bool _isPrivate, string _gamemodeString, NetPlayer[] _players, NetPlayer _masterClient) {
             Code = _code;
             IsModded = _isModded;
             IsPrivate = _isPrivate;
             GamemodeString = _gamemodeString;
             Players = _players;
             MasterClient = _masterClient;
-        };
+        }
     }
 }

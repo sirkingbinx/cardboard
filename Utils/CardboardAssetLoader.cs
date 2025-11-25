@@ -1,8 +1,13 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Cardboard.Utils
 {
+    /// <summary>
+    /// Class for loading asset bundles.
+    /// </summary>
     public static class CardboardAssetLoader
     {
         /// <summary>

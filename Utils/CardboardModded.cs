@@ -2,6 +2,9 @@ using System;
 
 namespace Cardboard.Utils
 {
+    /// <summary>
+    /// Managed modded room connections.
+    /// </summary>
     public static class CardboardModded
     {
         /// <summary>
