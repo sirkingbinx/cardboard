@@ -21,6 +21,21 @@ namespace Cardboard.Utils
             LoadGameObject(_path, _name);
 
         /// <summary>
+        /// Loads the specified object from filestream.
+        /// </summary>
+        /// <param name="_path">Resource to load assets from.</param>
+        /// <param name="_name">Name of the object to load.</param>
+        /// <returns>The instantiated object.</returns>
+        public static T Load<T>(string _path, string _name) where T : UnityEngine.Object
+        {
+            AssetBundle AB = AssetBundle.LoadFromStream(Assembly.GetCallingAssembly().GetManifestResourceStream(_path));
+            Object obj = AB.LoadAsset(_name);
+            AB.Unload(false);
+
+            return Object.Instantiate((T)obj);
+        }
+
+        /// <summary>
         /// Loads the specified GameObject from filestream.
         /// </summary>
         /// <param name="_path">Resource to load assets from.</param>
@@ -32,7 +47,7 @@ namespace Cardboard.Utils
             Object obj = AB.LoadAsset(_name);
             AB.Unload(false);
 
-            return GameObject.Instantiate((GameObject)obj);
+            return Object.Instantiate((GameObject)obj);
         }
     }
 }
