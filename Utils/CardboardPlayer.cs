@@ -21,7 +21,7 @@ namespace Cardboard.Utils
         /// <summary>
         /// The transform of the user's left hand.
         /// </summary>
-        public static Transform LeftHand {
+        public static Transform LeftHandTransform {
             get => GTPlayer.Instance.LeftHand.controllerTransform;
             set => GTPlayer.Instance.LeftHand.controllerTransform.SetPositionAndRotation(value.position, value.rotation);
         }
@@ -29,7 +29,7 @@ namespace Cardboard.Utils
         /// <summary>
         /// The transform of the user's right hand.
         /// </summary>
-        public static Transform RightHand {
+        public static Transform RightHandTransform {
             get => GTPlayer.Instance.RightHand.controllerTransform;
             set => GTPlayer.Instance.RightHand.controllerTransform.SetPositionAndRotation(value.position, value.rotation);
         }
