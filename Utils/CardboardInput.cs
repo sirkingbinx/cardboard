@@ -20,75 +20,75 @@ namespace Cardboard.Utils
         /// <summary>
         /// Represents if the left controller's primary button is held down.
         /// </summary>
-        public static bool leftPrimary => GetValue(InputType.leftPrimary);
+        public static bool LeftPrimary => GetValue(InputType.leftPrimary);
 
         /// <summary>
         /// Represents if the left controller's secondary button is held down.
         /// </summary>
-        public static bool leftSecondary => GetValue(InputType.leftSecondary);
+        public static bool LeftSecondary => GetValue(InputType.leftSecondary);
 
         /// <summary>
         /// Represents if the left controller's trigger button is pressed in more than 50%.
         /// </summary>
-        public static bool leftTrigger => GetValue(InputType.leftTrigger);
+        public static bool LeftTrigger => GetValue(InputType.leftTrigger);
 
         /// <summary>
         /// Represents if the left controller's grip button is pressed in more than 50%.
         /// </summary>
-        public static bool leftGrip => GetValue(InputType.leftGrip);
+        public static bool LeftGrip => GetValue(InputType.leftGrip);
 
         /// <summary>
         /// Represents if the left controller's thumbstick is pressed in.
         /// </summary>
-        public static bool leftStick => GetValue(InputType.leftStick);
+        public static bool LeftStick => GetValue(InputType.leftStick);
 
         /// <summary>
         /// Represents the position of the left controller's thumbstick.
         /// </summary>
-        public static Vector2 leftAxis => GetValue<Vector2>(SpecialInputType.leftThumbstickAxis);
+        public static Vector2 LeftAxis => GetValue<Vector2>(SpecialInputType.leftThumbstickAxis);
 #endregion
 #region Right Controller
         /// <summary>
         /// Represents if the right controller's primary button is held down.
         /// </summary>
-        public static bool rightPrimary => GetValue(InputType.rightPrimary);
+        public static bool RightPrimary => GetValue(InputType.rightPrimary);
 
         /// <summary>
         /// Represents if the right controller's secondary button is held down.
         /// </summary>
-        public static bool rightSecondary => GetValue(InputType.rightSecondary);
+        public static bool RightSecondary => GetValue(InputType.rightSecondary);
 
         /// <summary>
         /// Represents if the right controller's trigger button is pressed in more than 50%.
         /// </summary>
-        public static bool rightTrigger => GetValue(InputType.rightTrigger);
+        public static bool RightTrigger => GetValue(InputType.rightTrigger);
 
         /// <summary>
         /// Represents if the right controller's grip button is pressed in more than 50%.
         /// </summary>
-        public static bool rightGrip => GetValue(InputType.rightGrip);
+        public static bool RightGrip => GetValue(InputType.rightGrip);
 
         /// <summary>
         /// Represents if the right controller's thumbstick is pressed in.
         /// </summary>
-        public static bool rightStick => GetValue(InputType.rightStick);
+        public static bool RightStick => GetValue(InputType.rightStick);
 
         /// <summary>
         /// Represents the position of the right controller's thumbstick.
         /// </summary>
-        public static Vector2 rightAxis => GetValue<Vector2>(SpecialInputType.rightThumbstickAxis);
+        public static Vector2 RightAxis => GetValue<Vector2>(SpecialInputType.rightThumbstickAxis);
 #endregion
 #region GetValue
         /// <summary>
         /// Gets the value of the specified InputType.
         /// </summary>
-        /// <param name="_inputType">The InputType of the button you want the value of.</param>
+        /// <param name="inputType">The InputType of the button you want the value of.</param>
         /// <returns>A bool based on if the button is pressed.</returns>
-        public static bool GetValue(InputType _inputType)
+        public static bool GetValue(InputType inputType)
         {
-            bool temporarySClick = false;
+            var temporarySClick = false;
 
-            switch (_inputType)
+            switch (inputType)
             {
                 // left hand
                 case InputType.leftPrimary: return ControllerInputPoller.instance.leftControllerPrimaryButton;
@@ -96,10 +96,17 @@ namespace Cardboard.Utils
                 case InputType.leftTrigger: return ControllerInputPoller.instance.leftControllerIndexFloat > 0.5f;
                 case InputType.leftGrip: return ControllerInputPoller.instance.leftControllerGripFloat > 0.5f;
                 case InputType.leftStick:
-                    if (CardboardPlayer.Platform == GamePlatform.Steam)
-                        temporarySClick = SteamVR_Actions.gorillaTag_LeftJoystickClick.state;
-                    else if (CardboardPlayer.Platform == GamePlatform.OculusRift)
-                        InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxisClick, out temporarySClick);
+                    switch (CardboardPlayer.Platform)
+                    {
+                        default:
+                        case GamePlatform.None:
+                        case GamePlatform.Steam:
+                            temporarySClick = SteamVR_Actions.gorillaTag_LeftJoystickClick.state;
+                            break;
+                        case GamePlatform.OculusRift:
+                            ControllerInputPoller.instance.leftControllerDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out temporarySClick);
+                            break;
+                    }
 
                     return temporarySClick;
 
@@ -109,13 +116,19 @@ namespace Cardboard.Utils
                 case InputType.rightTrigger: return ControllerInputPoller.instance.rightControllerIndexFloat > 0.5f;
                 case InputType.rightGrip: return ControllerInputPoller.instance.rightControllerGripFloat > 0.5f;
                 case InputType.rightStick:
-                    if (CardboardPlayer.Platform == GamePlatform.Steam)
-                        temporarySClick = SteamVR_Actions.gorillaTag_RightJoystickClick.state;
-                    else if (CardboardPlayer.Platform == GamePlatform.OculusRift)
-                        InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxisClick, out temporarySClick);
+                    switch (CardboardPlayer.Platform)
+                    {
+                        default:
+                        case GamePlatform.None:
+                        case GamePlatform.Steam:
+                            temporarySClick = SteamVR_Actions.gorillaTag_RightJoystickClick.state;
+                            break;
+                        case GamePlatform.OculusRift:
+                            ControllerInputPoller.instance.rightControllerDevice.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out temporarySClick);
+                            break;
+                    }
 
                     return temporarySClick;
-                
                 default:
                     return false;
             }
@@ -124,18 +137,18 @@ namespace Cardboard.Utils
         /// <summary>
         /// Get the value of SpecialInputType. Check the XML documentation of a SpecialInputType to make sure you are using the correct type for the generic.
         /// </summary>
-        /// <param name="_inputType">The SpecialInputType of the button you want the value of.</param>
+        /// <param name="inputType">The SpecialInputType of the button you want the value of.</param>
         /// <returns>T representing the value.</returns>
-        public static T GetValue<T>(SpecialInputType _inputType) where T: new() {
-            switch (_inputType) {
-                case SpecialInputType.leftThumbstickAxis:
-                    return (T)(object)ControllerInputPoller.instance.leftControllerPrimary2DAxis;
-                case SpecialInputType.rightThumbstickAxis:
-                    return (T)(object)ControllerInputPoller.instance.rightControllerPrimary2DAxis;
-                default:
-                    return (T)(object)false;
-            }
-        }
-#endregion
+        public static T GetValue<T>(SpecialInputType inputType) where T : new() => inputType switch
+        {
+            SpecialInputType.leftThumbstickAxis =>
+                (T)(object)ControllerInputPoller.instance.leftControllerPrimary2DAxis,
+            SpecialInputType.rightThumbstickAxis =>
+                (T)(object)ControllerInputPoller.instance.rightControllerPrimary2DAxis,
+
+            _ => (T)(object)false
+        };
+
+        #endregion
     }
 }

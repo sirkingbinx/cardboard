@@ -10,10 +10,7 @@ namespace Cardboard.Utils
         /// <summary>
         /// Designates whether the room the player is currently in is a modded room.
         /// </summary>
-        public static bool IsModded
-        {
-            get => NetworkSystem.Instance.GameModeString.Contains("MODDED");
-        }
+        public static bool IsModded => NetworkSystem.Instance.GameModeString.Contains("MODDED");
 
         /// <summary>
         /// Modded join events go here
