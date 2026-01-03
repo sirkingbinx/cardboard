@@ -16,7 +16,7 @@ namespace Cardboard
     /// No.
     /// </summary>
     [BepInDependency("org.legoandmars.gorillatag.utilla", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("bingus.cardboard", "Cardboard", "1.1.0")]
+    [BepInPlugin("bingus.cardboard", "Cardboard", "1.2.0")]
     public class Main : BaseUnityPlugin
     {
         private void Start() =>
