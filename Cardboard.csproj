@@ -22,9 +22,6 @@
 		<Reference Include="BepInEx">
 			<HintPath>$(BepInExAssemblyPath)\BepInEx.dll</HintPath>
 		</Reference>
-		<Reference Include="Meta.XR.BuildingBlocks">
-			<HintPath>$(GameAssemblyPath)\Meta.XR.BuildingBlocks.dll</HintPath>
-		</Reference>
 		<Reference Include="Photon3Unity3D">
 			<HintPath>$(GameAssemblyPath)\Photon3Unity3D.dll</HintPath>
 		</Reference>
@@ -48,9 +45,6 @@
 		</Reference>
 		<Reference Include="PhotonVoice.PUN">
 			<HintPath>$(GameAssemblyPath)\PhotonVoice.PUN.dll</HintPath>
-		</Reference>
-		<Reference Include="PlayFab">
-			<HintPath>$(GameAssemblyPath)\PlayFab.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.InputSystem">
 			<HintPath>$(GameAssemblyPath)\Unity.InputSystem.dll</HintPath>

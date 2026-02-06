@@ -55,7 +55,7 @@ namespace Cardboard.Utils
 
 
         /// <summary>
-        /// Unpatches the calling assembly.
+        /// Unpatches the calling assembly. If you did not patch your plugin with CardboardLog, this will fail.
         /// </summary>
         public static void UnpatchInstance()
         {
