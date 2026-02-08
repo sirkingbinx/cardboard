@@ -1,5 +1,4 @@
 ﻿using BepInEx.Bootstrap;
-using Cardboard.Classes;
 using Cardboard.Interfaces;
 using Cardboard.Utils;
 using GorillaNetworking;
@@ -15,33 +14,32 @@ namespace Cardboard.Internals
     /// </summary>
     internal class CardboardManager : MonoBehaviour
     {
-        internal static string welcomeMessage = @"
+        internal static string WelcomeMessage = """
+                                                =========================================
+                                                ||                 _________________   ||
+                                                ||   _____________/__              /   ||
+                                                ||   \               \            /    ||
+                                                ||    \               \__________/     ||
+                                                ||     \               \    __-/ |     ||
+                                                ||      -----------------__-     |     ||
+                                                ||      |                |       |     ||
+                                                ||      |                |       |     ||
+                                                ||      |                |     __/     ||
+                                                ||      |                |  __-        ||
+                                                ||      |________________|_-           ||
+                                                ||                                     ||
+                                                =========================================
+                                                || Cardboard v1.2.0                    ||
+                                                || hello world!                        ||
+                                                =========================================
 
-=========================================
-||                 _________________   ||
-||   _____________/__              /   ||
-||   \               \            /    ||
-||    \               \__________/     ||
-||     \               \    __-/ |     ||
-||      -----------------__-     |     ||
-||      |                |       |     ||
-||      |                |       |     ||
-||      |                |     __/     ||
-||      |                |  __-        ||
-||      |________________|_-           ||
-||                                     ||
-=========================================
-|| Cardboard v1.1.0                    ||
-|| hello world!                        ||
-=========================================
+                                                """;
 
-        ";
+        internal static CardboardManager Instance { get; private set; }
 
-        internal static CardboardManager instance { get; private set; }
-
-        void Start()
+        private void Start()
         {
-            instance = this;
+            Instance = this;
             GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
             CardboardConfig.UpdateConfig();
             
@@ -55,18 +53,15 @@ namespace Cardboard.Internals
                 CardboardPlayer.Environment = SystemEnvironment.Unknown;
         }
 
-        void OnPlayerSpawned() {
+        private static void OnPlayerSpawned() {
             var platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
 
-            switch (platformTag) {
-                default:
-                case "steam":
-                    CardboardPlayer.Platform = GamePlatform.Steam;
-                    break;
-                case "pc":
-                    CardboardPlayer.Platform = GamePlatform.OculusRift;
-                    break;
-            }
+            CardboardPlayer.Platform = platformTag switch
+            {
+                "steam" => GamePlatform.Steam,
+                "pc" => GamePlatform.OculusRift,
+                _ => GamePlatform.None
+            };
 
             Debug.Log($"Cardboard platform: {platformTag} | {CardboardPlayer.Platform}");
 
@@ -76,7 +71,8 @@ namespace Cardboard.Internals
 				.Where(type => typeof(ICardboardModdedHandler).IsAssignableFrom(type) && type.IsClass && !type.IsInterface);
 
             foreach (var moddedHandler in moddedHandlers) {
-                var cHandler = Activator.CreateInstance(moddedHandler) as ICardboardModdedHandler;
+                if (Activator.CreateInstance(moddedHandler) is not ICardboardModdedHandler cHandler)
+                    continue;
 
                 CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
                 CardboardModded.ModdedLeave += cHandler.OnModdedLeave;
@@ -84,7 +80,7 @@ namespace Cardboard.Internals
                 Debug.Log($"cb: Found instance of ICardboardModdedHandler at {moddedHandler.FullName}");
             }
 
-            Debug.Log(welcomeMessage);
+            Debug.Log(WelcomeMessage);
             CardboardEvents.FirePlayerSpawned();
         }
     }

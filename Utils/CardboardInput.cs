@@ -1,22 +1,15 @@
 using Valve.VR;
 using UnityEngine;
 using UnityEngine.XR;
-using System;
 
 namespace Cardboard.Utils
 {
     /// <summary>
     /// Util class for gathering controller input.
     /// </summary>
-    [Obsolete("Please use CardboardInput instead.")]
-    public static class Input { };
-
-    /// <summary>
-    /// Util class for gathering controller input.
-    /// </summary>
     public static class CardboardInput
     {
-#region Left Controller
+        #region Left Controller
         /// <summary>
         /// Represents if the left controller's primary button is held down.
         /// </summary>
@@ -47,7 +40,7 @@ namespace Cardboard.Utils
         /// </summary>
         public static Vector2 LeftAxis => GetValue<Vector2>(SpecialInputType.leftThumbstickAxis);
 #endregion
-#region Right Controller
+        #region Right Controller
         /// <summary>
         /// Represents if the right controller's primary button is held down.
         /// </summary>
@@ -77,14 +70,15 @@ namespace Cardboard.Utils
         /// Represents the position of the right controller's thumbstick.
         /// </summary>
         public static Vector2 RightAxis => GetValue<Vector2>(SpecialInputType.rightThumbstickAxis);
-#endregion
-#region GetValue
+        #endregion
+        #region GetValue
         /// <summary>
         /// Gets the value of the specified InputType.
         /// </summary>
         /// <param name="inputType">The InputType of the button you want the value of.</param>
+        /// <param name="sensitivity">The sensitivity to check for inputs that are not direct boolean values (such as triggers or grips).</param>
         /// <returns>A bool based on if the button is pressed.</returns>
-        public static bool GetValue(InputType inputType)
+        public static bool GetValue(InputType inputType, float sensitivity = 0.5f)
         {
             var temporarySClick = false;
 
@@ -93,8 +87,8 @@ namespace Cardboard.Utils
                 // left hand
                 case InputType.leftPrimary: return ControllerInputPoller.instance.leftControllerPrimaryButton;
                 case InputType.leftSecondary: return ControllerInputPoller.instance.leftControllerSecondaryButton;
-                case InputType.leftTrigger: return ControllerInputPoller.instance.leftControllerIndexFloat > 0.5f;
-                case InputType.leftGrip: return ControllerInputPoller.instance.leftControllerGripFloat > 0.5f;
+                case InputType.leftTrigger: return ControllerInputPoller.instance.leftControllerIndexFloat > sensitivity;
+                case InputType.leftGrip: return ControllerInputPoller.instance.leftControllerGripFloat > sensitivity;
                 case InputType.leftStick:
                     switch (CardboardPlayer.Platform)
                     {
@@ -113,8 +107,8 @@ namespace Cardboard.Utils
                 // right hand
                 case InputType.rightPrimary: return ControllerInputPoller.instance.rightControllerPrimaryButton;
                 case InputType.rightSecondary: return ControllerInputPoller.instance.rightControllerSecondaryButton;
-                case InputType.rightTrigger: return ControllerInputPoller.instance.rightControllerIndexFloat > 0.5f;
-                case InputType.rightGrip: return ControllerInputPoller.instance.rightControllerGripFloat > 0.5f;
+                case InputType.rightTrigger: return ControllerInputPoller.instance.rightControllerIndexFloat > sensitivity;
+                case InputType.rightGrip: return ControllerInputPoller.instance.rightControllerGripFloat > sensitivity;
                 case InputType.rightStick:
                     switch (CardboardPlayer.Platform)
                     {

@@ -3,18 +3,55 @@ namespace Cardboard
     /// <summary>
     /// Used in Input classes to signify types of controller buttons.
     /// </summary>
-#pragma warning disable CS1591
     public enum InputType {
+        /// <summary>
+        /// The left primary button (X)
+        /// </summary>
         leftPrimary,
+
+        /// <summary>
+        /// The left secondary button (Y)
+        /// </summary>
         leftSecondary,
+
+        /// <summary>
+        /// The left grip. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
+        /// </summary>
         leftGrip,
+
+        /// <summary>
+        /// The left trigger. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
+        /// </summary>
         leftTrigger,
+
+        /// <summary>
+        /// The left joystick click.
+        /// </summary>
         leftStick,
 
+        /// <summary>
+        /// The right primary button (A)
+        /// </summary>
         rightPrimary,
+
+        /// <summary>
+        /// The right secondary button (B)
+        /// </summary>
         rightSecondary,
+
+        /// <summary>
+        /// The right grip. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
+        /// </summary>
         rightGrip,
+
+        /// <summary>
+        /// The right trigger. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
+        /// </summary>
         rightTrigger,
+
+        /// <summary>
+        /// The right joystick click.
+        /// </summary>
         rightStick,
     };
 
@@ -23,12 +60,12 @@ namespace Cardboard
     /// </summary>
     public enum SpecialInputType {
         /// <summary>
-        /// Vector2
+        /// The left thumbstick. Type: Vector2
         /// </summary>
         leftThumbstickAxis,
 
         /// <summary>
-        /// Vector2
+        /// The right thumbstick. Type: Vector2
         /// </summary>
         rightThumbstickAxis,
     };
@@ -62,7 +99,14 @@ namespace Cardboard
     /// Used to define modded events.
     /// </summary>
     public enum ModdedEventType {
+        /// <summary>
+        /// Event called as the player joined a modded lobby.
+        /// </summary>
         ModdedJoin,
+
+        /// <summary>
+        /// Event called as the player left a modded lobby.
+        /// </summary>
         ModdedLeave,
     };
 
@@ -70,9 +114,45 @@ namespace Cardboard
     /// Used to define the player's platform.
     /// </summary>
     public enum GamePlatform {
+        /// <summary>
+        /// SteamVR
+        /// </summary>
         Steam,
+
+        /// <summary>
+        /// Oculus Rift / Link PCVR / Quest Link / etc..
+        /// </summary>
         OculusRift,
+
+        /// <summary>
+        /// idk bro
+        /// </summary>
         None,
     };
-#pragma warning restore CS1591
+
+    /// <summary>
+    /// Used in CardboardLog to declare what type of log message you are delivering.
+    /// </summary>
+    public enum LogLevel
+    {
+        /// <summary>
+        /// A Debug log level, for messages used to help development.
+        /// </summary>
+        Debug,
+
+        /// <summary>
+        /// An Info log level, for messages just meant to give a general message.
+        /// </summary>
+        Info,
+
+        /// <summary>
+        /// A Warning log level, for messages which may cause errors in the future
+        /// </summary>
+        Warning,
+
+        /// <summary>
+        /// An Error log level. Take a guess at what this one means.
+        /// </summary>
+        Error
+    }
 }

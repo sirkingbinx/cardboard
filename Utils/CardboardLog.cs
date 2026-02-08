@@ -1,9 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
-using System.Reflection;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Cardboard.Utils
 {
@@ -12,17 +8,17 @@ namespace Cardboard.Utils
     /// </summary>
     public class CardboardLog
     {
-        private StreamWriter currentWriter;
+        private readonly StreamWriter _currentWriter;
 
         /// <summary>
         /// Log the current line into the log.
         /// </summary>
-        public void Log(string text, string ending = "\n") => currentWriter.Write($"{text}{ending}");
+        public void Log(string text, string ending = "\n") => _currentWriter.Write($"{text}{ending}");
 
         /// <summary>
         /// Log the current line into the log with the logLevel string.
         /// </summary>
-        public void Log(string logLevel, string text) => Log($"[{logLevel.ToUpper()} @ {DateTime.Now.ToLongTimeString()}]: {text}");
+        public void Log(string text, LogLevel logLevel) => Log($"[{logLevel} | {DateTime.Now.ToLongTimeString()}]: {text}");
 
         /// <summary>
         /// Log an error into the log.
@@ -35,34 +31,29 @@ namespace Cardboard.Utils
         public void LogWarning(string text) => Log("warning", $"{text}");
 
         /// <summary>
-        /// Represents if the CardboardLog is writable and enabled. If this is false, do not write to the log.
-        /// </summary>
-        public bool Active => (currentWriter.BaseStream != null);
-
-        /// <summary>
         /// Close the CardboardLog and disable writing.
         /// </summary>
         public void Dispose()
         {
-            if (Active) currentWriter.Dispose();
+            _currentWriter.Dispose();
         }
 
         /// <summary>
         /// Create a new CardboardLog.
         /// </summary>
         /// <param name="uuid">The UUID of your mod.</param>
-        /// <param name="logs_folder">The folder that your mod's logs will be collected in. By default, this is (GT)/BepInEx/CardboardLogs/(uuid).</param>
-        public CardboardLog(string uuid, string? outputFolder)
+        /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/BepInEx/CardboardLogs/(uuid) which will be used if outputFolder = "BepInEx".</param>
+        public CardboardLog(string uuid, string outputFolder = "BepInEx")
         {
-            var logsFolder = outputFolder ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BepInEx", "CardboardLogs", uuid);
+            var logsFolder = outputFolder == "BepInEx" ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BepInEx", "CardboardLogs", uuid) : outputFolder;
 
             if (!Directory.Exists(logsFolder))
-                Directory.Create(logsFolder);
+                Directory.CreateDirectory(logsFolder);
             
             var logsFile = $"log_{DateTime.Now.ToShortDateString().Replace("/", "-")}_{DateTime.Now.ToLongTimeString().Replace(":", "-").Replace(" ", "-")}.txt";
 
-            currentWriter = new StreamWriter(logsFile);
-            currentWriter.AutoFlush = true;
+            _currentWriter = new StreamWriter(logsFile);
+            _currentWriter.AutoFlush = true;
         }
     }
 }
