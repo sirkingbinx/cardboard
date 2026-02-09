@@ -9,7 +9,7 @@ namespace Cardboard
      * as a soft dependency here.
      *
      * Cardboard should *require* zero dependencies, but for the mods that we do attempt to
-     * support, listing them as a soft dependency makes sure that it loads after us.
+     * support, listing them as a soft dependency makes sure that it loads before us.
      */
     
     /// <summary>
