@@ -23,12 +23,12 @@ namespace Cardboard.Utils
         /// <summary>
         /// Log an error into the log.
         /// </summary>
-        public void LogError(string text) => Log("error", $"{text}");
+        public void LogError(string text) => Log($"{text}", LogLevel.Error);
 
         /// <summary>
         /// Log a warning into the log.
         /// </summary>
-        public void LogWarning(string text) => Log("warning", $"{text}");
+        public void LogWarning(string text) => Log($"{text}", LogLevel.Warning);
 
         /// <summary>
         /// Close the CardboardLog and disable writing.

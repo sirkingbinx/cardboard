@@ -29,7 +29,7 @@ namespace Cardboard.Internals
                                                 ||      |________________|_-           ||
                                                 ||                                     ||
                                                 =========================================
-                                                || Cardboard v1.2.0                    ||
+                                                || Cardboard v1.3.0                    ||
                                                 || hello world!                        ||
                                                 =========================================
 
@@ -65,23 +65,41 @@ namespace Cardboard.Internals
 
             Debug.Log($"Cardboard platform: {platformTag} | {CardboardPlayer.Platform}");
 
-            var modAssemblies = Chainloader.PluginInfos.Values
-				.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
-            var moddedHandlers = modAssemblies.SelectMany(assembly => assembly.GetTypes())
-				.Where(type => typeof(ICardboardModdedHandler).IsAssignableFrom(type) && type.IsClass && !type.IsInterface);
-
-            foreach (var moddedHandler in moddedHandlers) {
-                if (Activator.CreateInstance(moddedHandler) is not ICardboardModdedHandler cHandler)
-                    continue;
-
+            foreach (var cHandler in GetInstancesOf<ICardboardModdedHandler>()) {
                 CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
                 CardboardModded.ModdedLeave += cHandler.OnModdedLeave;
+            }
 
-                Debug.Log($"cb: Found instance of ICardboardModdedHandler at {moddedHandler.FullName}");
+            foreach (var pHandler in GetInstancesOf<ICardboardPlayerHandler>()) {
+                CardboardEvents.OnPlayerJoinedRoom += pHandler.OnPlayerJoinedRoom;
+                CardboardEvents.OnPlayerLeftRoom += pHandler.OnPlayerLeftRoom;
+            }
+
+            foreach (var lHandler in GetInstancesOf<ICardboardLobbyHandler>()) {
+                CardboardEvents.OnJoinedRoom += pHandler.OnJoinedRoom;
+                CardboardEvents.OnLeftRoom += pHandler.OnLeftRoom;
             }
 
             Debug.Log(WelcomeMessage);
             CardboardEvents.FirePlayerSpawned();
+        }
+
+        private static List<T> GetInstancesOf<T>() {
+            var modAssemblies = Chainloader.PluginInfos.Values
+				.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
+            var types = modAssemblies.SelectMany(assembly => assembly.GetTypes())
+				.Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsInterface);
+
+            var typeInstances = new List<T>();
+
+            foreach (var type in types) {
+                if (Activator.CreateInstance(type) is not T typeInstance)
+                    continue;
+
+                typeInstances.Add(type);
+            }
+
+            return type;
         }
     }
 }
