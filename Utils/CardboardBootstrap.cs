@@ -1,4 +1,4 @@
-﻿using BepInEx.Bootstrap;
+﻿using System;
 
 namespace Cardboard.Utils
 {
@@ -12,7 +12,7 @@ namespace Cardboard.Utils
         /// </summary>
         /// <param name="_UUID">The mod UUID to check.</param>
         /// <returns>Bool signifying if mod installed</returns>
-        public static bool Installed(string _UUID) =>
-            Chainloader.PluginInfos.ContainsKey(_UUID);
+        [Obsolete("No longer maintained, please manually check for other mods being injected", true)]
+        public static bool Installed(string _UUID) => false;
     }
 }

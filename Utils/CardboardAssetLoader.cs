@@ -24,14 +24,14 @@ namespace Cardboard.Utils
         public static T Load<T>(string _path, string _name) where T : Object
         {
             if (AssetCache.TryGetValue($"{_path}|${_name}", out Object asset) && asset is T)
-                return asset;
+                return (T)asset;
             
             AssetBundle AB = AssetBundle.LoadFromStream(Assembly.GetCallingAssembly().GetManifestResourceStream(_path));
             Object obj = (T)AB.LoadAsset(_name);
             AB.Unload(false);
 
             AssetCache.Add($"{_path}|${_name}", obj);
-            return Object.Instantiate(obj); // returning a copy for immutability
+            return (T)Object.Instantiate(obj); // returning a copy for immutability
         }
 
         /// <summary>

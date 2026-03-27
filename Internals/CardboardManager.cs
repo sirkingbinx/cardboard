@@ -3,6 +3,7 @@ using Cardboard.Interfaces;
 using Cardboard.Utils;
 using GorillaNetworking;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -37,11 +38,16 @@ namespace Cardboard.Internals
 
         internal static CardboardManager Instance { get; private set; }
 
+        internal CardboardLog Logger { get; private set; }
+
         private void Start()
         {
             Instance = this;
             GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
             CardboardConfig.UpdateConfig();
+            Logger = new CardboardLog("Cardboard");
+
+            Logger.Log("Loading Cardboard");
             
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 CardboardPlayer.Environment = SystemEnvironment.Windows;
@@ -51,6 +57,8 @@ namespace Cardboard.Internals
                 CardboardPlayer.Environment = SystemEnvironment.Mac;
             else
                 CardboardPlayer.Environment = SystemEnvironment.Unknown;
+
+            Logger.Log($"os: {CardboardPlayer.Environment}");
         }
 
         private static void OnPlayerSpawned() {
@@ -63,7 +71,7 @@ namespace Cardboard.Internals
                 _ => GamePlatform.None
             };
 
-            Debug.Log($"Cardboard platform: {platformTag} | {CardboardPlayer.Platform}");
+            Debug.Log($"platform: {platformTag} | {CardboardPlayer.Platform}");
 
             foreach (var cHandler in GetInstancesOf<ICardboardModdedHandler>()) {
                 CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
@@ -76,12 +84,14 @@ namespace Cardboard.Internals
             }
 
             foreach (var lHandler in GetInstancesOf<ICardboardLobbyHandler>()) {
-                CardboardEvents.OnJoinedRoom += pHandler.OnJoinedRoom;
-                CardboardEvents.OnLeftRoom += pHandler.OnLeftRoom;
+                CardboardEvents.OnJoinedRoom += lHandler.OnJoinedRoom;
+                CardboardEvents.OnLeftRoom += lHandler.OnLeftRoom;
             }
 
-            Debug.Log(WelcomeMessage);
+            Logger.Log(WelcomeMessage);
+            
             CardboardEvents.FirePlayerSpawned();
+            Logger.Log("Cardboard initialized successfully");
         }
 
         private static List<T> GetInstancesOf<T>() {
@@ -96,10 +106,10 @@ namespace Cardboard.Internals
                 if (Activator.CreateInstance(type) is not T typeInstance)
                     continue;
 
-                typeInstances.Add(type);
+                typeInstances.Add(typeInstance);
             }
 
-            return type;
+            return typeInstances;
         }
     }
 }

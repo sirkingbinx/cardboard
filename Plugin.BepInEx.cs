@@ -1,6 +1,6 @@
-using BepInEx;
-using UnityEngine;
+﻿using BepInEx;
 using Cardboard.Internals;
+using UnityEngine;
 
 namespace Cardboard
 {
@@ -11,15 +11,22 @@ namespace Cardboard
      * Cardboard should *require* zero dependencies, but for the mods that we do attempt to
      * support, listing them as a soft dependency makes sure that it loads before us.
      */
-    
+
     /// <summary>
-    /// No.
+    /// Loads Cardboard into the game. Don't modify this.
     /// </summary>
     [BepInDependency("org.legoandmars.gorillatag.utilla", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("bingus.cardboard", "Cardboard", "1.3.0")]
-    public class Main : BaseUnityPlugin
+    [BepInPlugin(Constants.GUID, Constants.Name, Constants.Version)]
+    public class BIEPlugin : BaseUnityPlugin
     {
-        private void Start() =>
-            new GameObject("Cardboard", typeof(CardboardManager));
+        internal static BIEPlugin Instance;
+
+        internal GameObject CardboardManagerGameObject { get; private set; }
+
+        private void Start()
+        {
+            Instance ??= this;
+            CardboardManagerGameObject = new GameObject("Cardboard", typeof(CardboardManager));
+        }
     }
 }

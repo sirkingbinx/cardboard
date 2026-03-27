@@ -1,4 +1,5 @@
 using System;
+using Cardboard.Internals;
 
 namespace Cardboard.Utils
 {
@@ -28,6 +29,8 @@ namespace Cardboard.Utils
                 ModdedJoin();
             else if (IsModded && mType == ModdedEventType.ModdedLeave)
                 ModdedLeave();
+
+            CardboardManager.Instance.Logger.Log("Cardboard initialized successfully");
         }
     }
 }
