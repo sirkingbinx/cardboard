@@ -6,21 +6,39 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<DefineConstants Condition="'$(BuildMode)' == 'Global'">$(DefineConstants);BEPINEX;MELONLOADER</DefineConstants>
+		<DefineConstants Condition="'$(BuildMode)' == 'BepInEx'">$(DefineConstants);BEPINEX</DefineConstants>
+		<DefineConstants Condition="'$(BuildMode)' == 'MelonLoader'">$(DefineConstants);MELONLOADER</DefineConstants>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Compile Remove="Content\**" />
 		<EmbeddedResource Remove="Content\**" />
 		<None Remove="Content\**" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(BuildMode)' == 'BepInEx' Or '$(BuildMode)' == 'Global'">
 		<Reference Include="0Harmony">
 			<HintPath>$(BepInExAssemblyPath)\0Harmony.dll</HintPath>
 		</Reference>
-		<Reference Include="Assembly-CSharp">
-			<HintPath>$(GameAssemblyPath)\Assembly-CSharp.dll</HintPath>
-		</Reference>
 		<Reference Include="BepInEx">
 			<HintPath>$(BepInExAssemblyPath)\BepInEx.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(BuildMode)' == 'MelonLoader' Or '$(BuildMode)' == 'Global'">
+		<Reference Include="0Harmony">
+			<HintPath>$(MLAssemblyPath)\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="MelonLoader">
+			<HintPath>$(MLAssemblyPath)\MelonLoader.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(GameAssemblyPath)\Assembly-CSharp.dll</HintPath>
 		</Reference>
 		<Reference Include="Photon3Unity3D">
 			<HintPath>$(GameAssemblyPath)\Photon3Unity3D.dll</HintPath>

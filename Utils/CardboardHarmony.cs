@@ -1,7 +1,10 @@
-using HarmonyLib;
-using BepInEx;
+using System;
 using System.Reflection;
 using System.Collections.Generic;
+
+#if BEPINEX
+using BepInEx;
+#endif
 
 namespace Cardboard.Utils
 {
@@ -10,31 +13,33 @@ namespace Cardboard.Utils
     /// </summary>
     public static class CardboardHarmony
     {
-        private static Dictionary<Assembly, Harmony> patchedInstances = new Dictionary<Assembly, Harmony>();
-        
+        private static Dictionary<Assembly, HarmonyLib.Harmony> patchedInstances = new();
+
+#if BEPINEX
         /// <summary>
         /// Patches the BaseUnityPlugin provided and returns the Harmony class used to patch the plugin.
         /// </summary>
         /// <param name="_instance">The BaseUnityPlugin to patch.</param>
         /// <returns>The Harmony instance that was used to patch it.</returns>
-        public static Harmony PatchInstance(BaseUnityPlugin _instance)
+        [Obsolete("Removed due to MelonLoader support addition. Please pass in your GUID instead.", true)]
+        public static HarmonyLib.Harmony PatchInstance(BaseUnityPlugin _instance)
         {
-            Harmony thisHarmony = new Harmony(_instance.Info.Metadata.GUID);
+            HarmonyLib.Harmony thisHarmony = new HarmonyLib.Harmony(_instance.Info.Metadata.GUID);
             Assembly patchingAssembly = Assembly.GetAssembly(_instance.GetType());
             thisHarmony.PatchAll(patchingAssembly);
             patchedInstances.Add(patchingAssembly, thisHarmony);
 
             return thisHarmony;
         }
-
+#endif
         /// <summary>
         /// Patches the assembly based on the GUID provided and returns the Harmony class used to patch the plugin.
         /// </summary>
         /// <param name="GUID">The mod GUID.</param>
         /// <returns>The Harmony instance that was used to patch it.</returns>
-        public static Harmony PatchInstance(string GUID)
+        public static HarmonyLib.Harmony PatchInstance(string GUID)
         {
-            Harmony thisHarmony = new Harmony(GUID);
+            HarmonyLib.Harmony thisHarmony = new HarmonyLib.Harmony(GUID);
             thisHarmony.PatchAll(Assembly.GetCallingAssembly());
 
             return thisHarmony;
@@ -46,9 +51,9 @@ namespace Cardboard.Utils
         /// <param name="GUID">The mod GUID.</param>
         /// <param name="_asm">The assembly to patch.</param>
         /// <returns>The Harmony instance that was used to patch it.</returns>
-        public static Harmony PatchInstance(string GUID, Assembly _asm)
+        public static HarmonyLib.Harmony PatchInstance(string GUID, Assembly _asm)
         {
-            Harmony thisHarmony = new Harmony(GUID);
+            HarmonyLib.Harmony thisHarmony = new HarmonyLib.Harmony(GUID);
             thisHarmony.PatchAll(_asm);
 
             return thisHarmony;
@@ -60,16 +65,14 @@ namespace Cardboard.Utils
         /// </summary>
         public static void UnpatchInstance()
         {
-            patchedInstances.TryGetValue(Assembly.GetCallingAssembly(), out Harmony patchedInstance);
-
-            if (patchedInstance != null)
-                patchedInstance.UnpatchSelf();
+            patchedInstances.TryGetValue(Assembly.GetCallingAssembly(), out HarmonyLib.Harmony patchedInstance);
+            patchedInstance?.UnpatchSelf();
         }
 
         /// <summary>
         /// Unpatches the assembly of _instance.
         /// </summary>
         /// <param name="_instance">The patched Harmony instance.</param>
-        public static void UnpatchInstance(Harmony _instance) => _instance.UnpatchSelf();
+        public static void UnpatchInstance(HarmonyLib.Harmony _instance) => _instance.UnpatchSelf();
     }
 }

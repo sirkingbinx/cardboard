@@ -61,7 +61,7 @@ namespace Cardboard.Internals
             Logger.Log($"os: {CardboardPlayer.Environment}");
         }
 
-        private static void OnPlayerSpawned() {
+        private void OnPlayerSpawned() {
             var platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
 
             CardboardPlayer.Platform = platformTag switch

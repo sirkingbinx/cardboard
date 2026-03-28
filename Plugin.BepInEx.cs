@@ -1,4 +1,6 @@
-﻿using BepInEx;
+﻿#if BEPINEX
+
+using BepInEx;
 using Cardboard.Internals;
 using UnityEngine;
 
@@ -30,3 +32,5 @@ namespace Cardboard
         }
     }
 }
+
+#endif
