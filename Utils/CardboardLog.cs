@@ -12,9 +12,14 @@ namespace Cardboard.Utils
         private readonly StreamWriter _currentWriter;
 
         /// <summary>
+        /// A divider used to seperate notable messages and text from other log messages.
+        /// </summary>
+        public const string Divider = "======================================================";
+
+        /// <summary>
         /// Log the current line into the log.
         /// </summary>
-        public void Log(string text, string ending = "\n")
+        public void Log(string text, string ending)
         {
             var fmt = $"{text}{ending}";
 
@@ -25,7 +30,20 @@ namespace Cardboard.Utils
         /// <summary>
         /// Log the current line into the log with the logLevel string.
         /// </summary>
-        public void Log(string text, LogLevel logLevel) => Log($"[{logLevel} | {DateTime.Now.ToLongTimeString()}]: {text}");
+        public void Log(string text, LogLevel logLevel = LogLevel.Info) => Log($"[{logLevel} | DT:{Time.deltaTime}]: {text}", "\n");
+
+        /// <summary>
+        /// Log an exception to the file. This logs the message, source, and stack trace of the exception.
+        /// </summary>
+        public void Log(Exception ex)
+        {
+            Log($"{Divider}\nAn exception occured!", "\n");
+            Log($"  Message:   {ex.Message}", "\n");
+            Log($"  Source:    {ex.Source}", "\n");
+            Log( "  Stack:", "\n");
+            Log(ex.StackTrace.Replace("\n", "\n\t").Trim().RemoveEnd("\n"), "\n");
+            Log(Divider, "\n");
+        }
 
         /// <summary>
         /// Log an error into the log.
@@ -50,16 +68,16 @@ namespace Cardboard.Utils
         /// </summary>
         /// <param name="uuid">The UUID of your mod.</param>
         /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/BepInEx/CardboardLogs/(uuid) which will be used if outputFolder = "BepInEx".</param>
-        public CardboardLog(string uuid, string outputFolder = "CBLogs")
+        public CardboardLog(string uuid, string outputFolder = null)
         {
-            var logsFolder = outputFolder == "CBLogs" ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CBLogs", uuid) : outputFolder;
+            var logsFolder = outputFolder ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", uuid);
 
             if (!Directory.Exists(logsFolder))
                 Directory.CreateDirectory(logsFolder);
             
             var logsFile = $"log_{DateTime.Now.ToShortDateString().Replace("/", "-")}_{DateTime.Now.ToLongTimeString().Replace(":", "-").Replace(" ", "-")}.txt";
 
-            _currentWriter = new StreamWriter(logsFile);
+            _currentWriter = new StreamWriter(Path.Combine(logsFolder, logsFile));
             _currentWriter.AutoFlush = true;
         }
     }

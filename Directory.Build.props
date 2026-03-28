@@ -2,7 +2,7 @@
 <Project>
 	<PropertyGroup>
 		<GamePath>C:\Program Files\Meta Horizon\Software\Software\another-axiom-gorilla-tag</GamePath>
-		<BuildMode>Global</BuildMode>
+		<BuildMode>BepInEx</BuildMode>
 		<!-- enter in "Global", "BepInEx", or "MelonLoader" -->
 	</PropertyGroup>
 

@@ -1,11 +1,11 @@
-﻿using BepInEx.Bootstrap;
-using Cardboard.Interfaces;
+﻿using Cardboard.Interfaces;
 using Cardboard.Utils;
 using GorillaNetworking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using BepInEx.Bootstrap;
 using UnityEngine;
 
 namespace Cardboard.Internals
@@ -43,7 +43,18 @@ namespace Cardboard.Internals
         private void Start()
         {
             Instance = this;
-            GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
+            GorillaTagger.OnPlayerSpawned(() =>
+            {
+                try
+                {
+                    OnPlayerSpawned();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex);
+                }
+            });
+
             CardboardConfig.UpdateConfig();
             Logger = new CardboardLog("Cardboard");
 
