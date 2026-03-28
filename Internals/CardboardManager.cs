@@ -73,7 +73,7 @@ namespace Cardboard.Internals
         }
 
         private void OnPlayerSpawned() {
-            var platformTag = PlayFabAuthenticator.instance.platform.PlatformTag.ToLower();
+            var platformTag = PlayFabAuthenticator.instance.platform.ToString().ToLower();
 
             CardboardPlayer.Platform = platformTag switch
             {
@@ -82,7 +82,7 @@ namespace Cardboard.Internals
                 _ => GamePlatform.None
             };
 
-            Debug.Log($"platform: {platformTag} | {CardboardPlayer.Platform}");
+            Logger.Log($"platform: {platformTag} | {CardboardPlayer.Platform}");
 
             foreach (var cHandler in GetInstancesOf<ICardboardModdedHandler>()) {
                 CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
@@ -109,7 +109,7 @@ namespace Cardboard.Internals
             var modAssemblies = Chainloader.PluginInfos.Values
 				.Select(pluginInfo => pluginInfo.Instance.GetType().Assembly).Distinct();
             var types = modAssemblies.SelectMany(assembly => assembly.GetTypes())
-				.Where(type => typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsInterface);
+				.Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
 
             var typeInstances = new List<T>();
 
