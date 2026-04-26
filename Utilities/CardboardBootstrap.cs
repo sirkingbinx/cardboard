@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cardboard.Utils
+namespace Cardboard.Utilities
 {
     /// <summary>
     /// Holder for checking BepInEx plugins

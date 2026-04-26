@@ -1,30 +1,27 @@
-﻿#if MELONLOADER
-
-using Cardboard;
+﻿using Cardboard;
 using Cardboard.Internals;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(MLPlugin), Cardboard.Constants.Name, Cardboard.Constants.Version, Cardboard.Constants.Author)]
+[assembly: MelonInfo(typeof(PluginMelonLoader), Cardboard.Constants.Name, Cardboard.Constants.Version, Cardboard.Constants.Author)]
 [assembly: MelonGame("Another Axiom", "Gorilla Tag")]
+[assembly: HarmonyDontPatchAll]
 
-namespace Cardboard
+namespace Cardboard;
+
+internal class PluginMelonLoader : MelonPlugin
 {
-    public class MLPlugin : MelonPlugin
+    internal static PluginMelonLoader Instance;
+
+    internal GameObject CardboardManagerGameObject { get; private set; }
+
+    /// <summary>
+    /// Don't use this lmao
+    /// </summary>
+    public override void OnLateInitializeMelon()
     {
-        internal static MLPlugin Instance;
-
-        internal GameObject CardboardManagerGameObject { get; private set; }
-
-        /// <summary>
-        /// Don't use this lmao
-        /// </summary>
-        public override void OnLateInitializeMelon()
-        {
-            Instance ??= this;
-            CardboardManagerGameObject = new GameObject("Cardboard", typeof(CardboardManager));
-        }
+        Instance ??= this;
+        Constants.Loader = ModLoader.MelonLoader;
+        CardboardManagerGameObject = new GameObject("Cardboard", typeof(CardboardManager));
     }
 }
-
-#endif

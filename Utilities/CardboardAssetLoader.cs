@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Cardboard.Utils
+namespace Cardboard.Utilities
 {
     /// <summary>
     /// Class for loading asset bundles.

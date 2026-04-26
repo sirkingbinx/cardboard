@@ -1,12 +1,7 @@
-using System;
 using System.Reflection;
 using System.Collections.Generic;
 
-#if BEPINEX
-using BepInEx;
-#endif
-
-namespace Cardboard.Utils
+namespace Cardboard.Utilities
 {
     /// <summary>
     /// A class providing simple Harmony patching.
@@ -15,23 +10,6 @@ namespace Cardboard.Utils
     {
         private static Dictionary<Assembly, HarmonyLib.Harmony> patchedInstances = new();
 
-#if BEPINEX
-        /// <summary>
-        /// Patches the BaseUnityPlugin provided and returns the Harmony class used to patch the plugin.
-        /// </summary>
-        /// <param name="_instance">The BaseUnityPlugin to patch.</param>
-        /// <returns>The Harmony instance that was used to patch it.</returns>
-        [Obsolete("Removed due to MelonLoader support addition. Please pass in your GUID instead.", true)]
-        public static HarmonyLib.Harmony PatchInstance(BaseUnityPlugin _instance)
-        {
-            HarmonyLib.Harmony thisHarmony = new HarmonyLib.Harmony(_instance.Info.Metadata.GUID);
-            Assembly patchingAssembly = Assembly.GetAssembly(_instance.GetType());
-            thisHarmony.PatchAll(patchingAssembly);
-            patchedInstances.Add(patchingAssembly, thisHarmony);
-
-            return thisHarmony;
-        }
-#endif
         /// <summary>
         /// Patches the assembly based on the GUID provided and returns the Harmony class used to patch the plugin.
         /// </summary>

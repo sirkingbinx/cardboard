@@ -1,7 +1,7 @@
 using Cardboard.Classes;
 using System;
 
-namespace Cardboard.Utils {
+namespace Cardboard.Utilities {
     /// <summary>
     /// A manager for a whole lot of events
     /// </summary>

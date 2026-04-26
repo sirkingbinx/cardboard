@@ -1,7 +1,7 @@
 using GorillaLocomotion;
 using UnityEngine;
 
-namespace Cardboard.Utils
+namespace Cardboard.Utilities
 {
     /// <summary>
     /// A utility class for quick access to player data.

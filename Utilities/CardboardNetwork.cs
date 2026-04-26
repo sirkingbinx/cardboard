@@ -2,7 +2,7 @@ using System;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 
-namespace Cardboard.Utils
+namespace Cardboard.Utilities
 {
     /// <summary>
     /// Util class for networking properties.

@@ -24,5 +24,10 @@
         /// Plugin author (MelonLoader)
         /// </summary>
         public const string Author = "SirKingBinx";
+
+        /// <summary>
+        /// The mod loader used to inject Cardboard.
+        /// </summary>
+        public static ModLoader Loader { get; internal set; }
     }
 }
