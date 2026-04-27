@@ -15,9 +15,8 @@ public class CardboardRequirement : Attribute
 
     /// <inheritdoc cref="CardboardRequirement"/>
     /// <param name="requirementUuid">The Uuid of the requirement.</param>
-    /// <param name="necessary">`true` to cancel the mod's initialization if the requirement is missing, `false` to ignore.</param>
-    public CardboardRequirement(string requirementUuid, bool necessary = true)
+    public CardboardRequirement(string requirementUuid)
     {
-
+        Uuid = requirementUuid;
     }
 }

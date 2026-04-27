@@ -56,4 +56,9 @@ public class CardboardMod : MonoBehaviour
             field = value;
         }
     }
+
+    /// <summary>
+    /// Called when Cardboard first initializes the mod.
+    /// </summary>
+    public void OnBootstrapped() { }
 }

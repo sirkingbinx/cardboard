@@ -44,6 +44,8 @@ internal class CardboardManager : MonoBehaviour
 
     internal CardboardLog Logger { get; private set; }
 
+    internal GameObject CardboardModsObject;
+
     private void Start()
     {
         Instance = this;
@@ -89,21 +91,7 @@ internal class CardboardManager : MonoBehaviour
 
         Logger.Log($"platform: {platformTag} | {CardboardPlayer.Platform}");
 
-        // Initialize CardboardMods
-
-        LoadAvaliableAssemblies();
-
-        foreach (var mod in GetInstancesOfTypeWithAttribute<ModInfo, CardboardMod>())
-        {
-            ModInfo modInfo = mod.Item1;
-            CardboardMod cardboardMod = mod.Item2;
-
-            cardboardMod.Info = modInfo;
-            cardboardMod.ModLoader = Constants.Loader;
-
-            CardboardRequirement[] requirements = [.. cardboardMod.GetType().GetCustomAttributes<CardboardRequirement>(false)];
-
-        }
+        InitializeCardboardMods();
 
         // Initialize event handlers
 
@@ -210,6 +198,94 @@ internal class CardboardManager : MonoBehaviour
         } catch (Exception ex)
         {
             Instance.Logger.LogError($"Failed to load assembly \"{assemblyFile}\" - {ex.TargetSite.Name}: \"{ex.Message}\"");
+        }
+    }
+
+    private static void InitializeCardboardMods()
+    {
+        // Initialize CardboardMods
+
+        LoadAvaliableAssemblies();
+
+        Dictionary<string, Version> modVersions = new();
+        Dictionary<string, (ModInfo, CardboardMod)> mods = new();
+        List<CardboardMod> modComponents = new();
+
+        foreach (var mod in GetInstancesOfTypeWithAttribute<ModInfo, CardboardMod>())
+        {
+            ModInfo modInfo = mod.Item1;
+            CardboardMod cardboardMod = mod.Item2;
+
+            if (modVersions.ContainsKey(modInfo.Uuid) && modVersions[modInfo.Uuid] > modInfo.Version)
+            {
+                Instance.Logger.Log($"Skipping initialization of [ {modInfo.Name} {modInfo.Version} ] because a newer version exists [ {modInfo.Name} {modVersions[modInfo.Uuid]} ]");
+                continue;
+            }
+            else if (modVersions.ContainsKey(modInfo.Uuid) && modVersions[modInfo.Uuid] > modInfo.Version)
+            {
+                Instance.Logger.Log($"Replacing [ {modInfo.Name} {modInfo.Version} ] because a newer version is loaded [ {modInfo.Name} {modVersions[modInfo.Uuid]} ]");
+
+                modVersions.Remove(modInfo.Uuid);
+                mods.Remove(modInfo.Uuid);
+                modComponents.Remove(mods[modInfo.Uuid].Item2);
+            }
+
+            cardboardMod.Info = modInfo;
+            cardboardMod.ModLoader = Constants.Loader;
+
+            modVersions.Add(modInfo.Uuid, modInfo.Version);
+            mods.Add(modInfo.Uuid, (modInfo, cardboardMod));
+            modComponents.Add(cardboardMod);
+        }
+
+        // Check for proper requirements for each mod & set initialization order
+
+        foreach (var mod in mods.Values)
+        {
+            List<string> missingDependencies = [];
+            CardboardRequirement[] requirements = [.. mod.Item2.GetType().GetCustomAttributes<CardboardRequirement>(false)];
+
+            if (requirements.Length == 0)
+            {
+                modComponents.Move(modComponents.IndexOf(mod.Item2), 0);
+            } else
+            {
+                int lastRequirementIndex = 0;
+
+                foreach (CardboardRequirement requirement in requirements)
+                {
+                    if (!mods.ContainsKey(requirement.Uuid))
+                    {
+                        Instance.Logger.Log($"Skipping initialization of [ {mod.Item1.Uuid} {mod.Item1.Version} ] because it is missing a dependency [ {requirement.Uuid} ]");
+
+                        modVersions.Remove(mod.Item1.Uuid);
+                        mods.Remove(mod.Item1.Uuid);
+                        modComponents.Remove(mod.Item2);
+                    } else
+                    {
+                        CardboardMod requirementComp = mods[requirement.Uuid].Item2;
+                        int idx = modComponents.IndexOf(requirementComp);
+                        lastRequirementIndex = idx > lastRequirementIndex ? idx : lastRequirementIndex;
+                    }
+                }
+
+                modComponents.Move(modComponents.IndexOf(mod.Item2), lastRequirementIndex + 1);
+            }
+        }
+
+        // Load each of them
+
+        Instance.CardboardModsObject = new GameObject($"Cardboard {Constants.Version} Bootstrapper");
+
+        foreach (CardboardMod _mod in modComponents)
+        {
+            CardboardMod mod = (CardboardMod)Instance.CardboardModsObject.AddComponent(_mod.GetType());
+
+            try { mod.OnBootstrapped(); }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+            }
         }
     }
 }
