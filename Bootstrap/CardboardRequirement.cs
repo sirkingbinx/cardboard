@@ -5,7 +5,7 @@ namespace Cardboard.Bootstrap;
 /// <summary>
 /// CardboardRequirement tells Cardboard that a dependency is required for this mod to function.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public class CardboardRequirement : Attribute
 {
     /// <summary>
