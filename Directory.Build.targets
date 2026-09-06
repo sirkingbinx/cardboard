@@ -9,9 +9,4 @@
 		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GamePath)\BepInEx\plugins\$(SolutionName)\$(MSBuildProjectName).dll"/>
 		<Message Text="$(MSBuildProjectName).dll -> BepInEx\plugins\$(SolutionName)\$(MSBuildProjectName).dll" Importance="high"/>
 	</Target>
-
-	<Target Name="InstallToMelonLoader" AfterTargets="Build" Condition="Exists('$(GamePath)\Mods')">
-		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GamePath)\Mods\$(MSBuildProjectName).dll"/>
-		<Message Text="$(MSBuildProjectName).dll -> Mods\$(MSBuildProjectName).dll" Importance="high"/>
-	</Target>
 </Project>

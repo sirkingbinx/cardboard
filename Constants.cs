@@ -6,28 +6,18 @@
     public static class Constants
     {
         /// <summary>
-        /// Plugin name (BepInEx / MelonLoader)
+        /// Plugin name
         /// </summary>
         public const string Name = "Cardboard";
 
         /// <summary>
-        /// Plugin version (BepInEx / MelonLoader)
+        /// Plugin version
         /// </summary>
         public const string Version = "1.3.0";
 
         /// <summary>
-        /// Plugin UUID (BepInEx)
+        /// Plugin UUID
         /// </summary>
         public const string GUID = "bingus.cardboard";
-
-        /// <summary>
-        /// Plugin author (MelonLoader)
-        /// </summary>
-        public const string Author = "SirKingBinx";
-
-        /// <summary>
-        /// The mod loader used to inject Cardboard.
-        /// </summary>
-        public static ModLoader Loader { get; internal set; }
     }
 }

@@ -26,7 +26,7 @@ public class BepInExPlugin : BaseUnityPlugin
     private void Start()
     {
         Instance ??= this;
-        Constants.Loader = ModLoader.BepInEx;
         CardboardManagerGameObject = new GameObject("Cardboard", typeof(CardboardManager));
+        DontDestroyOnLoad(CardboardManagerGameObject);
     }
 }
