@@ -37,7 +37,7 @@ jobs:
       run: ls -la
         
     - run: dotnet tool update -g docfx
-    - run: docfx metadata && docfx build
+    - run: docfx docfx.json
     
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
