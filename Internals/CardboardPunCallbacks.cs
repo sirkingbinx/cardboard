@@ -11,18 +11,18 @@ namespace Cardboard.Internals
     {
         public override void OnJoinedRoom()
         {
-            var Code = NetworkSystem.Instance.RoomName;
-            var IsModded = NetworkSystem.Instance.GameModeString.Contains("MODDED_");
-            var IsPrivate = NetworkSystem.Instance.SessionIsPrivate;
-            var GamemodeString = NetworkSystem.Instance.GameModeString;
-            var Players = NetworkSystem.Instance.AllNetPlayers;
-            var MasterClient = NetworkSystem.Instance.MasterClient;
+            var code = NetworkSystem.Instance.RoomName;
+            var isModded = NetworkSystem.Instance.GameModeString.Contains("MODDED_");
+            var isPrivate = NetworkSystem.Instance.SessionIsPrivate;
+            var gameModeString = NetworkSystem.Instance.GameModeString;
+            var players = NetworkSystem.Instance.AllNetPlayers;
+            var masterClient = NetworkSystem.Instance.MasterClient;
 
-            var RoomEventArgs = new RoomEventArgs(Code, IsModded, IsPrivate, GamemodeString, Players, MasterClient);
+            var roomEventArgs = new RoomEventArgs(code, isModded, isPrivate, gameModeString, players, masterClient);
 
-            CardboardEvents.FireJoinedRoom(RoomEventArgs);
+            CardboardEvents.FireJoinedRoom(roomEventArgs);
 
-            if (IsModded)
+            if (isModded)
                 CardboardModded.CallModdedEvent(ModdedEventType.ModdedJoin);
         }
 

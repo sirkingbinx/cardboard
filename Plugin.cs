@@ -16,17 +16,13 @@ namespace Cardboard;
 /// Loads Cardboard into the game. Don't modify this.
 /// </summary>
 [BepInDependency("org.legoandmars.gorillatag.utilla", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("dev.gorillalibrary", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInPlugin(Constants.GUID, Constants.Name, Constants.Version)]
-public class BepInExPlugin : BaseUnityPlugin
+public class Plugin : BaseUnityPlugin
 {
-    internal static BepInExPlugin Instance;
-
-    internal GameObject CardboardManagerGameObject { get; private set; }
-
-    private void Start()
+    private void Awake()
     {
-        Instance ??= this;
-        CardboardManagerGameObject = new GameObject("Cardboard", typeof(CardboardManager));
-        DontDestroyOnLoad(CardboardManagerGameObject);
+        var manager = new GameObject("Cardboard", typeof(CardboardManager));
+        DontDestroyOnLoad(manager);
     }
 }
