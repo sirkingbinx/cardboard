@@ -7,7 +7,7 @@ Cardboard comes with a pretty cool featureset, including:
 - **Patching**: Cardboard can handle Harmony Patching to reduce the size of your assemblies.
 - **Input Handling**: Cardboard can handle and parse input from the controllers.
 
-For the full list of features, [see the documentation](https://github.com/sirkingbinx/cardboard/wiki/Home).
+For the full list of features, [see the documentation](https://cardboard.sirkingbinx.dev).
 
 ## Installation
 You can download [the latest release here](https://github.com/sirkingbinx/cardboard/releases/latest).
