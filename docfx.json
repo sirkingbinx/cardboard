@@ -3,8 +3,7 @@
     {
       "src": [
         {
-          "files": [ "**/*.csproj" ],
-          "exclude": [ "**/bin/**", "**/obj/**" ]
+          "files": [ "Build/Cardboard.dll" ]
         }
       ],
       "dest": "api"
