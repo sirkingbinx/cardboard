@@ -4,7 +4,8 @@
     {
       "src": [
         {
-          "files": [ "Build/Cardboard.dll" ]
+          "files": [ "Build/Cardboard.dll" ],
+          "src": "Build"
         }
       ],
       "dest": "api"
