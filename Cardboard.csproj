@@ -90,4 +90,8 @@
 			<HintPath>$(GameAssemblyPath)\SteamVR_Actions.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Content Include=".github\workflows\publish_docs.yml" />
+	</ItemGroup>
 </Project>
