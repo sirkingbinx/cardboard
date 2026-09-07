@@ -1,0 +1,33 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [ "**/*.csproj" ],
+          "exclude": [ "**/bin/**", "**/obj/**" ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [ "api/**/*.yml" ]
+      },
+      {
+        "files": [ "articles/**/*.md", "toc.yml", "*.md" ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "images/**" ]
+      }
+    ],
+    "dest": "_site",
+    "template": [ "default" ],
+    "globalMetadata": {
+      "_appTitle": "Cardboard"
+    }
+  }
+}
