@@ -68,6 +68,9 @@
 		<Reference Include="UnityEngine.CoreModule">
 			<HintPath>$(GameAssemblyPath)\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(GameAssemblyPath)\UnityEngine.IMGUIModule.dll</HintPath>
+		</Reference>
 		<Reference Include="UnityEngine.SubsystemsModule">
 			<HintPath>$(GameAssemblyPath)\UnityEngine.SubsystemsModule.dll</HintPath>
 		</Reference>
