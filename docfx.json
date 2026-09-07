@@ -3,7 +3,7 @@
     {
       "src": [
         {
-          "files": [ "Build/Cardboard.dll" ]
+          "files": [ "**/Cardboard.dll" ]
         }
       ],
       "dest": "api"
