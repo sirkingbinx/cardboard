@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
     <Target Name="CopyToBuild" AfterTargets="Build">
-        <Copy SourceFiles="$(TargetPath)" DestinationFiles="Build\$(MSBuildProjectName).dll"/>
-        <Message Text="$(MSBuildProjectName).dll -> Build\$(MSBuildProjectName).dll" Importance="high"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFiles="..\bin\$(MSBuildProjectName).dll"/>
+        <Message Text="$(MSBuildProjectName).dll -> bin\$(MSBuildProjectName).dll" Importance="high"/>
 
-        <Copy SourceFiles="$(TargetPath)" DestinationFiles="Build\$(MSBuildProjectName).xml"/>
-        <Message Text="$(MSBuildProjectName).dll -> Build\$(MSBuildProjectName).xml" Importance="high"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFiles="..\bin\$(MSBuildProjectName).xml"/>
+        <Message Text="$(MSBuildProjectName).dll -> bin\$(MSBuildProjectName).xml" Importance="high"/>
     </Target>
 
 	<Target Name="InstallToBepInEx" AfterTargets="Build" Condition="Exists('$(GamePath)\BepInEx\plugins')">

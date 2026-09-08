@@ -5,7 +5,7 @@
       "src": [
         {
           "files": [ "Cardboard.dll" ],
-          "src": "Build"
+          "src": "bin"
         }
       ],
       "dest": "api"
