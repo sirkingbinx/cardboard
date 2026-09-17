@@ -1,8 +1,9 @@
+using BepInEx;
 using System;
 using System.IO;
 using UnityEngine;
 
-namespace Cardboard.Utilities
+namespace Cardboard
 {
     /// <summary>
     /// Class for writing to logs.
@@ -70,7 +71,7 @@ namespace Cardboard.Utilities
         /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/Cardboard/logs/(uuid) which will be used if outputFolder = "BepInEx".</param>
         public CardboardLog(string uuid, string outputFolder = null)
         {
-            var logsFolder = outputFolder ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cardboard", "logs", uuid);
+            var logsFolder = outputFolder ?? Path.Combine(Paths.BepInExRootPath, "cardboard", "logs", uuid);
 
             if (!Directory.Exists(logsFolder))
                 Directory.CreateDirectory(logsFolder);

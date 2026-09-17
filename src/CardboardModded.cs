@@ -1,7 +1,7 @@
 using System;
 using Cardboard.Internals;
 
-namespace Cardboard.Utilities
+namespace Cardboard
 {
     /// <summary>
     /// Managed modded room connections.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Cardboard.Utilities;
+namespace Cardboard;
 
 /// <summary>
 /// Utilities for Unity IMGUI creation.

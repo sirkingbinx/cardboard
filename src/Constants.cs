@@ -18,6 +18,6 @@
         /// <summary>
         /// Plugin UUID
         /// </summary>
-        public const string GUID = "bingus.cardboard";
+        public const string GUID = "dev.sirkingbinx.cardboard";
     }
 }

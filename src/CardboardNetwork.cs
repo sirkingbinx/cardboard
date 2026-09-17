@@ -5,7 +5,7 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace Cardboard.Utilities
+namespace Cardboard
 {
     /// <summary>
     /// Util class for networking properties.
@@ -17,7 +17,6 @@ namespace Cardboard.Utilities
         /// </summary>
         /// <param name="key">Key of the property to add.</param>
         /// <param name="value">Value of the property to add.</param>
-        [Obsolete("Networking properties has become unreliable in recent versions of Gorilla Tag; consider migrating to event-based networking.")]
         public static void CreateProperty(string key, string value) =>
             PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable()
                 { { key, value } });
@@ -26,7 +25,6 @@ namespace Cardboard.Utilities
         /// Returns the properties of the local player.
         /// </summary>
         /// <returns>The custom properties list of the LocalPlayer.</returns>
-        [Obsolete("Networking properties has become unreliable in recent versions of Gorilla Tag; consider migrating to event-based networking.")]
         public static Hashtable GetProperties() =>
             PhotonNetwork.LocalPlayer.CustomProperties;
 
@@ -35,7 +33,6 @@ namespace Cardboard.Utilities
         /// </summary>
         /// <param name="player">The player to get the properties for.</param>
         /// <returns>The custom properties list of the LocalPlayer.</returns>
-        [Obsolete("Networking properties has become unreliable in recent versions of Gorilla Tag; consider migrating to event-based networking.")]
         public static Hashtable GetProperties(NetPlayer player) =>
             player.GetPlayerRef().CustomProperties;
 
@@ -44,7 +41,6 @@ namespace Cardboard.Utilities
         /// </summary>
         /// <param name="key">The value of key inside of the player properties.</param>
         /// <returns>Value of the key in properties</returns>
-        [Obsolete("Networking properties has become unreliable in recent versions of Gorilla Tag; consider migrating to event-based networking.")]
         public static object GetPlayerProperty(string key) =>
             PhotonNetwork.LocalPlayer.CustomProperties[key];
 
@@ -54,7 +50,6 @@ namespace Cardboard.Utilities
         /// <param name="player">The player to get the properties for.</param>
         /// <param name="key">The value of key inside of the player properties.</param>
         /// <returns>Value of the key in properties</returns>
-        [Obsolete("Networking properties has become unreliable in recent versions of Gorilla Tag; consider migrating to event-based networking.")]
         public static object GetPlayerProperty(NetPlayer player, string key) =>
             player.GetPlayerRef().CustomProperties[key];
 

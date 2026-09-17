@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace Cardboard.Utilities
+namespace Cardboard
 {
     /// <summary>
     /// A class providing simple Harmony patching.

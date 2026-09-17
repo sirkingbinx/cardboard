@@ -1,3 +1,5 @@
+using System;
+
 namespace Cardboard;
 
 /// <summary>
@@ -80,19 +82,14 @@ public enum SystemEnvironment {
     Unknown = -1,
 
     /// <summary>
-    /// Any Linux distribution.
-    /// </summary>
-    Linux,
-
-    /// <summary>
     /// Windows NT
     /// </summary>
     Windows,
 
     /// <summary>
-    /// Mac OS X, OSX and macOS
+    /// A Windows NT environment running inside of Wine. This is generally the platform you get when running Gorilla Tag on Linux using Wine/Proton.
     /// </summary>
-    Mac,
+    WindowsOverWine
 };
 
 /// <summary>
@@ -159,6 +156,7 @@ public enum LogLevel
 /// <summary>
 /// Represents a mod loader. Such wow.
 /// </summary>
+[Obsolete]
 public enum ModLoader
 {
     /// <summary>

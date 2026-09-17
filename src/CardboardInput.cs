@@ -2,7 +2,7 @@ using Valve.VR;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace Cardboard.Utilities
+namespace Cardboard
 {
     /// <summary>
     /// Util class for gathering controller input.

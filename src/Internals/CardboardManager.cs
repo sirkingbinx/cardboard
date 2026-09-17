@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Cardboard.Interfaces;
-using Cardboard.Utilities;
 using GorillaNetworking;
 using UnityEngine;
 
@@ -13,20 +12,10 @@ namespace Cardboard.Internals;
 internal class CardboardManager : MonoBehaviour
 {
     private const string WelcomeMessage =
-        $"=========================================\n" +
-        "||                 _________________   ||\n" +
-        "||   _____________/__              /   ||\n" +
-        "||   \\               \\            /    ||\n" +
-        "||    \\               \\__________/     ||\n" +
-        "||     \\               \\    __-/ |     ||\n" +
-        "||      -----------------__-     |     ||\n" +
-        "||      |                |       |     ||\n" +
-        "||      |   CARDBOARD    |       |     ||\n" +
-        "||      |                |     __/     ||\n" +
-        "||      |                |  __-        ||\n" +
-        "||      |________________|_-           ||\n" +
-        $"|| {Constants.Version}                              ||\n" +
-        "=========================================\n";
+        $"Cardboard v{Constants.Version}\n" +
+        "(C) 2026 sirkingbinx" +
+        "hello world";
+
     internal static CardboardManager Instance { get; private set; }
 
     internal CardboardLog Logger { get; private set; }
@@ -53,14 +42,23 @@ internal class CardboardManager : MonoBehaviour
         
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             CardboardPlayer.Environment = SystemEnvironment.Windows;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            CardboardPlayer.Environment = SystemEnvironment.Linux;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            CardboardPlayer.Environment = SystemEnvironment.Mac;
         else
             CardboardPlayer.Environment = SystemEnvironment.Unknown;
 
-        Logger.Log($"os: {CardboardPlayer.Environment}");
+        if (CardboardPlayer.Environment == SystemEnvironment.Windows)
+        {
+            IntPtr ntdllHandle = GetModuleHandle("ntdll.dll");
+
+            if (ntdllHandle != IntPtr.Zero)
+            {
+                IntPtr wineVersionProc = GetProcAddress(ntdllHandle, "wine_get_version");
+
+                if (wineVersionProc != IntPtr.Zero)
+                    CardboardPlayer.Environment = SystemEnvironment.WindowsOverWine;
+            }
+        }
+
+        Logger.Log($"OS: {CardboardPlayer.Environment}");
 
         NetworkSystem.Instance.OnRaiseEvent += (eventCode, data, _) =>
         {
@@ -96,7 +94,7 @@ internal class CardboardManager : MonoBehaviour
             _ => GamePlatform.None
         };
 
-        Logger.Log($"platform: {platformTag} | {CardboardPlayer.Platform}");
+        Logger.Log($"Platform: {CardboardPlayer.Platform}");
 
         // Initialize event handlers
 
@@ -120,4 +118,11 @@ internal class CardboardManager : MonoBehaviour
         CardboardEvents.FirePlayerSpawned();
         Logger.Log("Cardboard initialized successfully");
     }
+
+    // wine detection
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+    private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+    private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 }
