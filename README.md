@@ -1,3 +1,5 @@
+![Cardboard logo](/.github/cardboard.png)
+
 # Cardboard
 Cardboard is a general-purpose modding library to simplify mod development, inspired by [Utilla](https://github.com/legoandmars/Utilla) and [HoneyLib](https://github.com/BzzzThe18th/HoneyLib).
 
