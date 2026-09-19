@@ -37,7 +37,7 @@ jobs:
       uses: sirkingbinx/setup-gorilla-tag@1.0.0
         
     - run: dotnet tool update -g docfx
-    - run: docfx docfx.json
+    - run: docfx build --force
     
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
