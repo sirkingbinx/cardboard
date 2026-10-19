@@ -39,13 +39,15 @@ internal class CardboardManager : MonoBehaviour
         Logger = new CardboardLog("Cardboard");
 
         Logger.Log("Loading Cardboard");
+
+        UserSystem system = new UserSystem();
         
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            CardboardPlayer.Environment = SystemEnvironment.Windows;
+            system.SystemEnvironment = SystemEnvironment.Windows;
         else
-            CardboardPlayer.Environment = SystemEnvironment.Unknown;
+            system.SystemEnvironment = SystemEnvironment.Unknown;
 
-        if (CardboardPlayer.Environment == SystemEnvironment.Windows)
+        if (system.SystemEnvironment == SystemEnvironment.Windows)
         {
             IntPtr ntdllHandle = GetModuleHandle("ntdll.dll");
 
@@ -54,11 +56,13 @@ internal class CardboardManager : MonoBehaviour
                 IntPtr wineVersionProc = GetProcAddress(ntdllHandle, "wine_get_version");
 
                 if (wineVersionProc != IntPtr.Zero)
-                    CardboardPlayer.Environment = SystemEnvironment.WindowsOverWine;
+                    system.SystemEnvironment = SystemEnvironment.WindowsOverWine;
             }
         }
 
-        Logger.Log($"OS: {CardboardPlayer.Environment}");
+        Logger.Log($"OS: {system.SystemEnvironment}");
+
+        CardboardPlayer.System = system;
 
         NetworkSystem.Instance.OnRaiseEvent += (eventCode, data, _) =>
         {

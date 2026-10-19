@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using GorillaLocomotion;
 using UnityEngine;
 
@@ -14,9 +16,9 @@ namespace Cardboard
         public static GamePlatform Platform { get; internal set; }
 
         /// <summary>
-        /// The current operating system that the player is using.
+        /// The UserSystem for this player.
         /// </summary>
-        public static SystemEnvironment Environment { get; internal set; }
+        public static UserSystem System { get; internal set; }
 
         /// <summary>
         /// The transform of the user's left hand.
