@@ -9,5 +9,7 @@
 	<PropertyGroup Condition="'$(CI)'=='TRUE'">
 		<GameAssemblyPath>$(SolutionDir)Libs</GameAssemblyPath>
 		<BepInExAssemblyPath>$(SolutionDir)Libs</BepInExAssemblyPath>
+		
+		<DefineConstants>$(DefineConstants);IS_CI</DefineConstants>
 	</PropertyGroup>
 </Project>

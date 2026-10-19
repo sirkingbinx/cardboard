@@ -1,3 +1,5 @@
+#if !IS_CI
+
 using Valve.VR;
 using UnityEngine;
 using UnityEngine.XR;
@@ -146,3 +148,5 @@ namespace Cardboard
         #endregion
     }
 }
+
+#endif
