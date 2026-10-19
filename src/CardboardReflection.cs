@@ -1,3 +1,5 @@
+using BepInEx;
+using BepInEx.Bootstrap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +36,32 @@ public static class CardboardReflection
     }
 
     /// <summary>
+    /// Get all instances of classes that implement interface T, but limited to BepInEx plugins.
+    /// </summary>
+    /// <typeparam name="T">The interface to search for.</typeparam>
+    /// <returns>A list of activated instances of the interface and their respective PluginInfos.</returns>
+    public static List<(BepInEx.PluginInfo, T)> GetInstancesOfBepInterface<T>()
+    {
+        var infos = BepInExInfosToAssemblies;
+        var assemblies = infos.Select(i => i.Item2);
+        var types = assemblies.SelectMany(assembly => assembly.GetTypes())
+            .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
+
+        var typeInstances = new List<(BepInEx.PluginInfo, T)>();
+
+        foreach (var type in types)
+        {
+            if (Activator.CreateInstance(type) is not T typeInstance)
+                continue;
+
+            if (infos.First(i => i.Item2 == type.Assembly) is (BepInEx.PluginInfo p, T))
+            typeInstances.Add((p, typeInstance));
+        }
+
+        return typeInstances;
+    }
+
+    /// <summary>
     /// Get all instances of a type which has the specified attribute applied.
     /// </summary>
     /// <typeparam name="T1">The attribute to search for.</typeparam>
@@ -58,5 +86,33 @@ public static class CardboardReflection
         }
 
         return typeInstances;
+    }
+
+    /// <summary>
+    /// All assemblies that have been loaded by BepInEx. 
+    /// </summary>
+    public static Assembly[] BepInExAssemblies
+    {
+        get
+        {
+            if (field is null || field.Any())
+                field ??= Chainloader.PluginInfos.Values.Select(v => v.GetType().Assembly).ToArray();
+
+            return field;
+        }
+    }
+
+    /// <summary>
+    /// All assemblies that have been loaded by BepInEx accessible through their PluginInfo.
+    /// </summary>
+    public static List<(BepInEx.PluginInfo, Assembly)> BepInExInfosToAssemblies
+    {
+        get
+        {
+            if (field is null || field.Any())
+                field ??= [.. Chainloader.PluginInfos.Values.Select(v => (v, v.GetType().Assembly))];
+
+            return field;
+        }
     }
 }

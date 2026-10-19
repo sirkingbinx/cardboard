@@ -47,6 +47,9 @@
 		<Reference Include="PhotonVoice.PUN">
 			<HintPath>$(GameAssemblyPath)\PhotonVoice.PUN.dll</HintPath>
 		</Reference>
+		<Reference Include="Unity.Collections">
+			<HintPath>$(GameAssemblyPath)\Unity.Collections.dll</HintPath>
+		</Reference>
 		<Reference Include="Unity.InputSystem">
 			<HintPath>$(GameAssemblyPath)\Unity.InputSystem.dll</HintPath>
 		</Reference>

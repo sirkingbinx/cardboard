@@ -24,7 +24,7 @@ public class UserSystem
         if (SystemEnvironment != SystemEnvironment.WindowsOverWine)
             return userProfile;
         
-        string windowsUserName = new System.IO.DirectoryInfo(userProfile).Name;
+        string windowsUserName = new DirectoryInfo(userProfile).Name;
         string linuxHome = Path.Combine("Z:\\home", windowsUserName);
 
         return linuxHome;

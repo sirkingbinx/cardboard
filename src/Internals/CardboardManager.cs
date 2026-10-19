@@ -12,7 +12,7 @@ namespace Cardboard.Internals;
 internal class CardboardManager : MonoBehaviour
 {
     private const string WelcomeMessage =
-        $"Cardboard v{Constants.Version}\n" +
+        $"Cardboard v{PluginInfo.Version}\n" +
         "(C) 2026 sirkingbinx" +
         "hello world";
 
@@ -35,6 +35,8 @@ internal class CardboardManager : MonoBehaviour
                 Logger.Log(ex);
             }
         });
+
+        gameObject.AddComponent<CardboardPunCallbacks>();
 
         Logger = new CardboardLog("Cardboard");
 
@@ -102,19 +104,32 @@ internal class CardboardManager : MonoBehaviour
 
         // Initialize event handlers
 
-        foreach (var cHandler in CardboardReflection.GetInstancesOfInterface<ICardboardModdedHandler>()) {
+        foreach (var cHandler in CardboardReflection.GetInstancesOfInterface<ICardboardModdedHandler>())
+        {
             CardboardModded.ModdedJoin += cHandler.OnModdedJoin;
             CardboardModded.ModdedLeave += cHandler.OnModdedLeave;
         }
 
-        foreach (var pHandler in CardboardReflection.GetInstancesOfInterface<ICardboardPlayerHandler>()) {
+        foreach (var pHandler in CardboardReflection.GetInstancesOfInterface<ICardboardPlayerHandler>())
+        {
             CardboardEvents.OnPlayerJoinedRoom += pHandler.OnPlayerJoinedRoom;
             CardboardEvents.OnPlayerLeftRoom += pHandler.OnPlayerLeftRoom;
         }
 
-        foreach (var lHandler in CardboardReflection.GetInstancesOfInterface<ICardboardLobbyHandler>()) {
+        foreach (var lHandler in CardboardReflection.GetInstancesOfInterface<ICardboardLobbyHandler>())
+        {
             CardboardEvents.OnJoinedRoom += lHandler.OnJoinedRoom;
             CardboardEvents.OnLeftRoom += lHandler.OnLeftRoom;
+        }
+
+        foreach (var gamemodeData in CardboardReflection.GetInstancesOfBepInterface<CardboardCustomGamemode>())
+        {
+            var gamemode = gamemodeData.Item2;
+
+            CardboardLibIntegrator.Register(gamemodeData.Item1.Instance, // Plugin
+                gamemode.Id, gamemode.Name, gamemode.BaseMode, // Metadata
+                gamemode.OnJoined, gamemode.OnLeft // Actions
+            );
         }
 
         Logger.Log(WelcomeMessage);

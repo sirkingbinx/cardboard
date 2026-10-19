@@ -17,7 +17,7 @@ namespace Cardboard;
 /// </summary>
 [BepInDependency("org.legoandmars.gorillatag.utilla", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("dev.gorillalibrary", BepInDependency.DependencyFlags.SoftDependency)]
-[BepInPlugin(Constants.GUID, Constants.Name, Constants.Version)]
+[BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
 public class Plugin : BaseUnityPlugin
 {
     private void Awake()

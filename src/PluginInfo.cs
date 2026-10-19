@@ -1,9 +1,9 @@
 ﻿namespace Cardboard
 {
     /// <summary>
-    /// Constant data for Cardboard.
+    /// Plugin info for Cardboard.
     /// </summary>
-    public static class Constants
+    public static class PluginInfo
     {
         /// <summary>
         /// Plugin name
