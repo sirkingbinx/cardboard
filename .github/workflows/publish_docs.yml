@@ -33,6 +33,7 @@ jobs:
     - name: Setup Gorilla Tag
       uses: sirkingbinx/setup-gorilla-tag@1.0.0
 
+    - run: dotnet tool install -g docfx
     - run: docfx metadata docfx.json --property CI=true
     
     - name: Build DocFX Site
