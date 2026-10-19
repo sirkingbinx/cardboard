@@ -1,17 +1,17 @@
 {
   "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
-  "globalMetadata": {
-      "_appLogoPath": ".github/cardboard.png"
-  },
   "metadata": [
     {
       "src": [
         {
-          "files": [ "Cardboard.dll" ],
+          "files": [ 
+            "Cardboard.dll",
+            "Cardboard.xml" 
+          ],
           "src": "bin"
         }
       ],
-      "dest": "api"
+      "output": "api"
     }
   ],
   "build": {
@@ -28,7 +28,8 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "images/**",
+          "images/favicon.ico"
         ]
       }
     ],
@@ -41,7 +42,8 @@
       "_appName": "cardboard",
       "_appTitle": "cardboard",
       "_enableSearch": true,
-      "pdf": false
+      "pdf": false,
+      "_appLogoPath": ".github/cardboard.png"
     }
   }
 }
