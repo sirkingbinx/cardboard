@@ -25,6 +25,7 @@
         "files": [
           "api/**.yml",
           "api/toc.yml",
+          "docs/**.md",
           "docs/**.yml",
           "docs/toc.yml",
           "index.md",
@@ -39,7 +40,10 @@
     ],
     "resource": [
       {
-        "files": ["images/**", ".github/**"],
+        "files": [
+          "images/**", 
+          ".github/**"
+        ],
         "exclude": ["**/obj/**", "**/bin/**"]
       }
     ],
