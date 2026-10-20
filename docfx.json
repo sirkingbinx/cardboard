@@ -25,6 +25,8 @@
         "files": [
           "articles/**/*.md",
           "articles/**/toc.yml",
+          "api/**.yml",
+          "api/toc.yml",
           "index.md",
           "toc.yml"
         ],
