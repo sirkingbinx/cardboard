@@ -43,10 +43,11 @@
         ]
       },
       {
+        "src": ".github",
         "files": [ 
-          ".github/cardboard.png" 
+          "cardboard.png" 
         ],
-        "dot": true
+        "dest": "images"
       }
     ],
     "output": "_site",
