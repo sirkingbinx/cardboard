@@ -1,5 +1,5 @@
 - name: Docs
-  href: docs/quick_start.md
+  href: docs/quick_start.html
 - name: API
   href: api/
 - name: Source
