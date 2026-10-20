@@ -16,10 +16,7 @@
       "dest": "api",
       "properties": {
         "CI": "TRUE"
-      },
-      "references": [
-        "Libs/**/*.dll"
-      ]
+      }
     }
   ],
   "build": {
