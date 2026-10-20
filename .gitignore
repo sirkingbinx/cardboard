@@ -405,3 +405,4 @@ Libs/
 api/
 _site/
 dotnet-tools.json
+.tools/

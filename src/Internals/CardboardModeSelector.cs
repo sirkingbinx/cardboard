@@ -63,7 +63,8 @@ internal class CardboardModeSelector : MonoBehaviour
 
         var toggle = GetLayoutField<GorillaPressableButton>("superToggleButton");
         if (toggle != null)
-            toggle.gameObject.SetActive(false);
+            // The toggle and its label share a parent, as in the game's own SetupButtons.
+            toggle.transform.parent.gameObject.SetActive(false);
 
         var currentButtons = GetLayoutField<List<ModeSelectButton>>("currentButtons");
 

@@ -46,7 +46,7 @@ public sealed class CardboardChannel : IDisposable
             throw new Exception("You are not connected to a room.");
             
         int[] targetActorNumbers = [ targetPlayer.ActorNumber ];
-        object[] sendData = [Name, ChannelMessageType.Unicast, targetActorNumbers, data];
+        object[] sendData = [Name, (int)ChannelMessageType.Unicast, targetActorNumbers, data];
 
         RaiseEventOptions raiseEventOptions = new()
         {
@@ -67,12 +67,17 @@ public sealed class CardboardChannel : IDisposable
     {
         if (targetPlayers == null)
             throw new ArgumentNullException(nameof(targetPlayers));
+
+        var players = targetPlayers.ToArray();
+
+        if (players.Any(n => n is null))
+            throw new ArgumentNullException(nameof(targetPlayers));
         
         if (!NetworkSystem.Instance.InRoom)
             throw new Exception("You are not connected to a room.");
             
-        int[] targetActorNumbers = [ .. targetPlayers.Select(player => player.ActorNumber) ];
-        object[] sendData = [Name, ChannelMessageType.Multicast, targetActorNumbers, data];
+        int[] targetActorNumbers = [ .. players.Select(player => player.ActorNumber) ];
+        object[] sendData = [Name, (int)ChannelMessageType.Multicast, targetActorNumbers, data];
 
         RaiseEventOptions raiseEventOptions = new()
         {
@@ -95,19 +100,22 @@ public sealed class CardboardChannel : IDisposable
             throw new Exception("You are not connected to a room.");
         
         int[] targetActorNumbers = [ .. NetworkSystem.Instance.PlayerListOthers.Select(player => player.ActorNumber) ];
-        object[] sendData = [Name, ChannelMessageType.Broadcast, targetActorNumbers, data];
+        object[] sendData = [Name, (int)ChannelMessageType.Broadcast, targetActorNumbers, data];
 
         RaiseEventOptions raiseEventOptions = new()
         {
             TargetActors = targetActorNumbers
         };
 
+        if (sendSelf)
+            sendData[2] = NetworkSystem.Instance.AllNetPlayers.Select(player => player.ActorNumber).ToArray();
+
         PhotonNetwork.RaiseEvent(CardboardNetwork.CardboardEventCode, sendData, raiseEventOptions, SendOptions.SendReliable);
 
         if (!sendSelf)
             return;
         
-        OnRaiseEvent(CardboardNetwork.CardboardEventCode, data, NetworkSystem.Instance.LocalPlayer.ActorNumber);
+        OnRaiseEvent(CardboardNetwork.CardboardEventCode, sendData, NetworkSystem.Instance.LocalPlayer.ActorNumber);
     }
 
     /// <inheritdoc cref="CardboardChannel"/>
@@ -127,12 +135,12 @@ public sealed class CardboardChannel : IDisposable
         if (data is not object[] channelData || channelData.Length != 4)
             return;
 
-        if (channelData[0] is not string channel)
+        if (channelData[0] is not string channel || channel != Name)
             return;
 
-        ChannelMessage message = new ChannelMessage(channelData, callingActor);
-        
-        if (message is null)
+        ChannelMessage message;
+
+        if (!ChannelMessage.TryCreate(channelData, callingActor, out message))
             return;
 
         try { OnReceivedMessage?.Invoke(message); }

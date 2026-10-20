@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace Cardboard.Classes;
@@ -49,24 +50,44 @@ public class ChannelMessage
         data = askingData;
         return true;
     }
-    
-    internal ChannelMessage(object[] data, int sendingActorNumber)
+
+    internal static bool TryCreate(object[] data, int sendingActorNumber, out ChannelMessage message)
     {
-        if (data[0] is not string channelName) return;
-        if (data[1] is not ChannelMessageType messageType) return;
-        if (data[2] is not int[] messageTargets) return;
-        if (data[3] is not object channelData) return;
+        if ((data[0] is not string channelName) ||
+            (data[1] is not int messageTypeValue) ||
+            (data[2] is not int[] messageTargets))
+        {
+            message = null;
+            return false;
+        }
+
+        ChannelMessageType messageType = (ChannelMessageType)messageTypeValue;
+
+        if (!Enum.IsDefined(typeof(ChannelMessageType), messageType))
+        {
+            message = null;
+            return false;
+        }
 
         NetPlayer sender = NetworkSystem.Instance.AllNetPlayers
             .FirstOrDefault(n => sendingActorNumber == n.ActorNumber);
 
         if (sender is null)
-            return;
+        {
+            message = null;
+            return false;
+        }
 
-        ChannelName = channelName;
-        MessageType = messageType;
-        Targets = [ .. NetworkSystem.Instance.AllNetPlayers.Where(n => messageTargets.Contains(n.ActorNumber)) ];
-        Sender = sender;
-        Data = channelData;
+        message = new() {
+            ChannelName = channelName,
+            MessageType = messageType,
+            Targets = [.. NetworkSystem.Instance.AllNetPlayers.Where(n => messageTargets.Contains(n.ActorNumber))],
+            Sender = sender,
+            Data = data[3],
+        };
+
+        return true;
     }
+
+    private ChannelMessage() { }
 }

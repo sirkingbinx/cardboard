@@ -86,7 +86,7 @@ public class UserSystem
 
             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            if (SystemEnvironment != SystemEnvironment.WindowsOverWine)
+            if (SystemEnvironment != SystemEnvironment.Linux)
                 return userProfile;
 
             field = Path.Combine("Z:\\home", new DirectoryInfo(userProfile).Name);
@@ -99,7 +99,7 @@ public class UserSystem
         get
         {
             if (string.IsNullOrEmpty(field))
-                field = SystemEnvironment == SystemEnvironment.WindowsOverWine ? "Z:" : "C:";
+                field = SystemEnvironment == SystemEnvironment.Linux ? "Z:" : "C:";
 
             return field;
         }

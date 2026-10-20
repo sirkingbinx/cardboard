@@ -47,7 +47,7 @@ internal static class CardboardGamemodes
                 !GameMode.gameModeKeyByName.ContainsKey(mode.ToString()))
                 continue;
 
-            Add("MODDED_" + mode, "MODDED " + DisplayName(mode), mode);
+            Add(CardboardModeProtocol.ModdedId(mode.ToString()), "MODDED " + DisplayName(mode), mode);
         }
 
         foreach (var mode in customModes)

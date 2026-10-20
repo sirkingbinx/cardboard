@@ -4,7 +4,6 @@ using GorillaGameModes;
 using GorillaNetworking;
 using GorillaTagScripts.VirtualStumpCustomMaps;
 using HarmonyLib;
-using UnityEngine;
 
 namespace Cardboard.Patches;
 
@@ -75,10 +74,34 @@ internal static class CardboardRoomModePatch
 {
     private static void Postfix(string gmString, ref string __result)
     {
-        // formatted as {MAP};{QUEUE};{GAMEMODE_STRING};;
-        Debug.Log(gmString);
         if (CardboardGamemodes.Enabled && CardboardGamemodes.FromRoom(gmString) is { } mode)
             __result = mode.Id;
+    }
+}
+
+[HarmonyPatch(typeof(GorillaGameManager), nameof(GorillaGameManager.ValidGameMode))]
+internal static class CardboardValidGameModePatch
+{
+    private static bool Prefix(GorillaGameManager __instance, ref bool __result)
+    {
+        if (!CardboardGamemodes.Enabled || NetworkSystem.Instance == null || !NetworkSystem.Instance.InRoom ||
+            CardboardGamemodes.FromRoom(NetworkSystem.Instance.GameModeString) is not { } mode)
+            return true;
+
+        // The serializer validates the manager against the room ID before spawning it.
+        // Registered aliases use the existing manager for their base mode.
+        __result = __instance.GameType() == mode.BaseMode;
+        return false;
+    }
+}
+
+[HarmonyPatch(typeof(GorillaScoreBoard), "RoomType")]
+internal static class CardboardLeaderboardModePatch
+{
+    private static void Postfix(GorillaScoreBoard __instance, ref string __result)
+    {
+        if (CardboardGamemodes.Enabled && CardboardGamemodes.FromRoom(__instance.initialGameMode) is { } mode)
+            __result = mode.Name.ToUpperInvariant();
     }
 }
 
@@ -91,7 +114,15 @@ internal static class CardboardCurrentModeTextPatch
             return;
 
         if (NetworkSystem.Instance.InRoom && GorillaGameManager.instance != null)
+        {
+            var mode = CardboardGamemodes.FromRoom(NetworkSystem.Instance.GameModeString);
+            if (mode == null)
+                return;
+
+            LocalisationManager.TryGetKeyForCurrentLocale("CURRENT_MODE", out string currentTitle, "CURRENT MODE");
+            __instance.currentGameModeText.Value = $"{currentTitle}\n{mode.Name.ToUpperInvariant()}";
             return;
+        }
 
         LocalisationManager.TryGetKeyForCurrentLocale("CURRENT_MODE", out string title, "CURRENT MODE");
         LocalisationManager.TryGetKeyForCurrentLocale("NOT_IN_ROOM", out string status, "-NOT IN ROOM-");
