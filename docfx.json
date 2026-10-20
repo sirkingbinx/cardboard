@@ -43,7 +43,7 @@
         "exclude": ["**/obj/**", "**/bin/**"]
       }
     ],
-    "output": "_site",
+    "dest": ".",
     "template": [
       "default",
       "modern"
@@ -56,6 +56,5 @@
       "_appLogoPath": ".github/cardboard-icon.png",
       "_appFaviconPath": ".github/cardboard-icon.png"
     },
-    "dest": "_site"
   }
 }
