@@ -21,7 +21,7 @@ public static class CardboardReflection
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         var types = assemblies.SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
+            .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
 
         var typeInstances = new List<T>();
 
@@ -43,9 +43,9 @@ public static class CardboardReflection
     public static List<(BepInEx.PluginInfo, T)> GetInstancesOfBepInterface<T>()
     {
         var infos = BepInExInfosToAssemblies;
-        var assemblies = infos.Select(i => i.Item2);
+        var assemblies = infos.Select(i => i.Item2).Distinct();
         var types = assemblies.SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
+            .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
 
         var typeInstances = new List<(BepInEx.PluginInfo, T)>();
 
@@ -54,8 +54,8 @@ public static class CardboardReflection
             if (Activator.CreateInstance(type) is not T typeInstance)
                 continue;
 
-            if (infos.First(i => i.Item2 == type.Assembly) is (BepInEx.PluginInfo p, T))
-            typeInstances.Add((p, typeInstance));
+            var owner = infos.First(i => i.Item2 == type.Assembly).Item1;
+            typeInstances.Add((owner, typeInstance));
         }
 
         return typeInstances;
@@ -71,7 +71,7 @@ public static class CardboardReflection
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         var types = assemblies.SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(T2).IsAssignableFrom(type) && type.GetCustomAttributes<T1>(true).Any() && !type.IsInterface);
+            .Where(type => typeof(T2).IsAssignableFrom(type) && type.GetCustomAttributes<T1>(true).Any() && !type.IsInterface && !type.IsAbstract);
 
         var typeInstances = new List<(T1, T2)>();
 
@@ -96,7 +96,7 @@ public static class CardboardReflection
         get
         {
             if (field is null || field.Any())
-                field ??= Chainloader.PluginInfos.Values.Select(v => v.GetType().Assembly).ToArray();
+                field ??= Chainloader.PluginInfos.Values.Where(v => v.Instance != null).Select(v => v.Instance.GetType().Assembly).ToArray();
 
             return field;
         }
@@ -110,7 +110,7 @@ public static class CardboardReflection
         get
         {
             if (field is null || field.Any())
-                field ??= [.. Chainloader.PluginInfos.Values.Select(v => (v, v.GetType().Assembly))];
+                field ??= [.. Chainloader.PluginInfos.Values.Where(v => v.Instance != null).Select(v => (v, v.Instance.GetType().Assembly))];
 
             return field;
         }

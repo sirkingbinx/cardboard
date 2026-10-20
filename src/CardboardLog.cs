@@ -31,7 +31,7 @@ namespace Cardboard
         /// <summary>
         /// Log the current line into the log with the logLevel string.
         /// </summary>
-        public void Log(string text, LogLevel logLevel = LogLevel.Info) => Log($"[{logLevel} | DT:{Time.deltaTime}]: {text}", "\n");
+        public void Log(string text, LogLevel logLevel = LogLevel.Info) => Log($"[{logLevel.ToString().ToUpper()}] [{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}]: {text}", "\n");
 
         /// <summary>
         /// Log an exception to the file. This logs the message, source, and stack trace of the exception.
@@ -68,15 +68,15 @@ namespace Cardboard
         /// Create a new CardboardLog.
         /// </summary>
         /// <param name="uuid">The UUID of your mod.</param>
-        /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/Cardboard/logs/(uuid) which will be used if outputFolder = "BepInEx".</param>
+        /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/Cardboard/logs/(uuid).log which will be used if outputFolder = "BepInEx".</param>
         public CardboardLog(string uuid, string outputFolder = null)
         {
-            var logsFolder = outputFolder ?? Path.Combine(Paths.BepInExRootPath, "Cardboard", "logs", uuid);
+            var logsFolder = outputFolder ?? Path.Combine(Paths.BepInExRootPath, "Cardboard", "logs");
 
             if (!Directory.Exists(logsFolder))
                 Directory.CreateDirectory(logsFolder);
             
-            var logsFile = $"log_{DateTime.Now.ToShortDateString().Replace("/", "-")}_{DateTime.Now.ToLongTimeString().Replace(":", "-").Replace(" ", "-")}.txt";
+            var logsFile = $"{uuid}.log";
 
             _currentWriter = new StreamWriter(Path.Combine(logsFolder, logsFile));
             _currentWriter.AutoFlush = true;

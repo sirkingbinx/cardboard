@@ -11,7 +11,8 @@ namespace Cardboard
         /// <summary>
         /// Designates whether the room the player is currently in is a modded room.
         /// </summary>
-        public static bool IsModded => NetworkSystem.Instance.GameModeString.Contains("MODDED");
+        public static bool IsModded => NetworkSystem.Instance != null && NetworkSystem.Instance.InRoom &&
+            (NetworkSystem.Instance.GameModeString?.Contains("MODDED_") ?? false);
 
         /// <summary>
         /// Modded join events go here
@@ -27,10 +28,9 @@ namespace Cardboard
         {
             if (mType == ModdedEventType.ModdedJoin)
                 ModdedJoin();
-            else if (IsModded && mType == ModdedEventType.ModdedLeave)
+            else if (mType == ModdedEventType.ModdedLeave)
                 ModdedLeave();
 
-            CardboardManager.Instance.Logger.Log("Cardboard initialized successfully");
         }
     }
 }

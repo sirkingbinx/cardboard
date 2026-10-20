@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Cardboard.Interfaces;
+using Cardboard.Modded;
 using GorillaNetworking;
 using UnityEngine;
 
@@ -20,9 +23,12 @@ internal class CardboardManager : MonoBehaviour
 
     internal CardboardLog Logger { get; private set; }
 
+    private bool initialized;
+
     private void Start()
     {
         Instance = this;
+        Logger = new CardboardLog("Cardboard");
 
         GorillaTagger.OnPlayerSpawned(() =>
         {
@@ -38,8 +44,6 @@ internal class CardboardManager : MonoBehaviour
 
         gameObject.AddComponent<CardboardPunCallbacks>();
 
-        Logger = new CardboardLog("Cardboard");
-
         Logger.Log("Loading Cardboard");
 
         UserSystem system = new UserSystem();
@@ -51,46 +55,31 @@ internal class CardboardManager : MonoBehaviour
 
         if (system.SystemEnvironment == SystemEnvironment.Windows)
         {
-            IntPtr ntdllHandle = GetModuleHandle("ntdll.dll");
-
-            if (ntdllHandle != IntPtr.Zero)
+            try
             {
-                IntPtr wineVersionProc = GetProcAddress(ntdllHandle, "wine_get_version");
+                IntPtr ntdllHandle = GetModuleHandle("ntdll.dll");
 
-                if (wineVersionProc != IntPtr.Zero)
-                    system.SystemEnvironment = SystemEnvironment.WindowsOverWine;
-            }
+                if (ntdllHandle != IntPtr.Zero)
+                {
+                    IntPtr wineVersionProc = GetProcAddress(ntdllHandle, "wine_get_version");
+
+                    if (wineVersionProc != IntPtr.Zero)
+                        system.SystemEnvironment = SystemEnvironment.WindowsOverWine;
+                }
+            } catch { } // not on wine, ignore
         }
 
         Logger.Log($"OS: {system.SystemEnvironment}");
 
         CardboardPlayer.System = system;
-
-        NetworkSystem.Instance.OnRaiseEvent += (eventCode, data, _) =>
-        {
-            if (eventCode != CardboardNetwork.CardboardEventCode)
-                return;
-
-            if (data is not object[] channelData || channelData.Length != 2)
-                return;
-
-            if (channelData[0] is not string channel)
-                return;
-
-            try
-            {
-                if (CardboardNetwork.eventHandlers.ContainsKey(channel))
-                    CardboardNetwork.eventHandlers[channel].Invoke(channelData[1]);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex);
-            }
-        };
     }
 
     private void OnPlayerSpawned()
     {
+        if (initialized)
+            return;
+
+        initialized = true;
         var platformTag = PlayFabAuthenticator.instance.platform.ToString().ToLower();
 
         CardboardPlayer.Platform = platformTag switch
@@ -122,20 +111,68 @@ internal class CardboardManager : MonoBehaviour
             CardboardEvents.OnLeftRoom += lHandler.OnLeftRoom;
         }
 
-        foreach (var gamemodeData in CardboardReflection.GetInstancesOfBepInterface<CardboardCustomGamemode>())
+        var customModes = CardboardReflection.GetInstancesOfBepInterface<CardboardCustomGamemode>();
+        if (CardboardLibIntegrator.HasProvider)
         {
-            var gamemode = gamemodeData.Item2;
-
-            CardboardLibIntegrator.Register(gamemodeData.Item1.Instance, // Plugin
-                gamemode.Id, gamemode.Name, gamemode.BaseMode, // Metadata
-                gamemode.OnJoined, gamemode.OnLeft // Actions
-            );
+            foreach (var (owner, mode) in customModes)
+                StartCoroutine(RegisterWithProvider(owner.Instance, mode));
         }
+        else
+        {
+            CardboardGamemodes.Initialize(customModes.Select(entry => entry.Item2));
+        }
+
+        NetworkSystem.Instance.OnRaiseEvent += (eventCode, data, _) =>
+        {
+            if (eventCode != CardboardNetwork.CardboardEventCode)
+                return;
+
+            if (data is not object[] channelData || channelData.Length != 2)
+                return;
+
+            if (channelData[0] is not string channel)
+                return;
+
+            try
+            {
+                if (CardboardNetwork.eventHandlers.ContainsKey(channel))
+                    CardboardNetwork.eventHandlers[channel].Invoke(channelData[1]);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+            }
+        };
 
         Logger.Log(WelcomeMessage);
         
         CardboardEvents.FirePlayerSpawned();
         Logger.Log("Cardboard initialized successfully");
+    }
+
+    private IEnumerator RegisterWithProvider(BepInEx.BaseUnityPlugin owner, CardboardCustomGamemode mode)
+    {
+        // Wait for Utilla/GL to finish loading.
+        while (true)
+        {
+            string id;
+
+            try
+            {
+                id = CardboardLibIntegrator.Register(owner, CardboardModeProtocol.CustomId(string.Empty, mode.Id), mode.Name,
+                    mode.BaseMode, mode.OnJoined, mode.OnLeft);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                yield break;
+            }
+
+            if (id != null)
+                yield break;
+
+            yield return null;
+        }
     }
 
     // wine detection

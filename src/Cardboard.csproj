@@ -77,7 +77,10 @@
 		<Reference Include="UnityEngine.SubsystemsModule">
 			<HintPath>$(GameAssemblyPath)\UnityEngine.SubsystemsModule.dll</HintPath>
 		</Reference>
-		<Reference Include="UnityEngine.UI">
+		<Reference Include="Unity.TextMeshPro">
+            <HintPath>$(GameAssemblyPath)\Unity.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
 			<HintPath>$(GameAssemblyPath)\UnityEngine.UI.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.XR.LegacyInputHelpers">

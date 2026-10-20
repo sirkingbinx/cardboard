@@ -19,6 +19,9 @@ internal static class CardboardLibIntegrator
     private const BindingFlags Flags = BindingFlags.Public |
         BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
+    internal static bool HasProvider => Chainloader.PluginInfos.ContainsKey(Utilla) ||
+        Chainloader.PluginInfos.ContainsKey(GorillaLibrary);
+
     public static string Register(
         BaseUnityPlugin owner,
         string id,

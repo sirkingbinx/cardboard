@@ -8,10 +8,13 @@ namespace Cardboard.Internals
     /// </summary>
     internal class CardboardPunCallbacks : MonoBehaviourPunCallbacks
     {
+        private bool wasModded;
+
         public override void OnJoinedRoom()
         {
             var code = NetworkSystem.Instance.RoomName;
-            var isModded = NetworkSystem.Instance.GameModeString.Contains("MODDED_");
+            var isModded = CardboardModded.IsModded;
+            wasModded = isModded;
             var isPrivate = NetworkSystem.Instance.SessionIsPrivate;
             var gameModeString = NetworkSystem.Instance.GameModeString;
             var players = NetworkSystem.Instance.AllNetPlayers;
@@ -29,7 +32,9 @@ namespace Cardboard.Internals
         {
             CardboardEvents.FireLeftRoom();
             
-            if (CardboardModded.IsModded)
+            bool leftModded = wasModded;
+            wasModded = false;
+            if (leftModded)
                 CardboardModded.CallModdedEvent(ModdedEventType.ModdedLeave);
         }
 

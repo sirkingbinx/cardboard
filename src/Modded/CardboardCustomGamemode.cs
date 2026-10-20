@@ -1,6 +1,6 @@
 ﻿using GorillaGameModes;
 
-namespace Cardboard.Interfaces;
+namespace Cardboard.Modded;
 
 /// <summary>
 /// Build your own custom gamemodes for Cardboard, Utilla, and/or GorillaLibrary without any additional translation work.
@@ -10,12 +10,12 @@ public abstract class CardboardCustomGamemode
     /// <summary>
     /// The ID of the gamemode.
     /// </summary>
-    public string Id { get; }
+    public abstract string Id { get; }
 
     /// <summary>
     /// The display name used for your gamemode.
     /// </summary>
-    public string Name { get; }
+    public abstract string Name { get; }
 
     /// <summary>
     /// The gamemode that your custom gamemode inherits behaviour from.
