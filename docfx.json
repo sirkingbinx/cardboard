@@ -13,7 +13,13 @@
           ]
         }
       ],
-      "dest": "api"
+      "dest": "api",
+      "properties": {
+        "CI": "TRUE"
+      },
+      "references": [
+        "Libs/**/*.dll"
+      ]
     }
   ],
   "build": {
