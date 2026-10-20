@@ -152,3 +152,24 @@ public enum LogLevel
     /// </summary>
     Error
 }
+
+/// <summary>
+/// The type of channel message.
+/// </summary>
+public enum ChannelMessageType
+{
+    /// <summary>
+    /// The message was sent to all players in the lobby.
+    /// </summary>
+    Broadcast = 0,
+
+    /// <summary>
+    /// The message was sent to a list of users.
+    /// </summary>
+    Multicast = 1,
+
+    /// <summary>
+    /// The message was sent to a single user.
+    /// </summary>
+    Unicast = 2
+}

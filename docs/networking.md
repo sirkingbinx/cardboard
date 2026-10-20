@@ -37,12 +37,22 @@ public class LobbyNetworkingLogic : ICardboardModdedHandler
         commChannel.Dispose();
     }
 
-    // data - data sent across the channel
-    // sender - the player who sent the message
-    private void OnCommChannelMessage(object data, NetPlayer sender)
+    private void OnCommChannelMessage(ChannelMessage message)
     {
-        if (data is string myMessage)
+        // You can use this helper method
+        if (message.TryGetValue(out string myMessage))
             Debug.Log(myMessage);
+        
+        // Or manually cast your message data
+        if (message.Data is string myManualMessage)
+            Debug.Log(myManualMessage);
+
+        var receivers = message.Targets; // everyone who received this message
+        var sender = message.Sender; // who sent the message
+
+        // either Broadcast, Multicast, or Unicast
+        // (everyone, multiple people, one person)
+        var messageType = message.MessageType;
     }
 }
 ```

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cardboard.Internals;
+using Cardboard.Classes;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 
 namespace Cardboard;
 
@@ -21,14 +22,13 @@ public sealed class CardboardChannel : IDisposable
     /// <summary>
     /// A channel message delegate type.
     /// </summary>
-    /// <param name="data">The data sent across the channel.</param>
-    /// <param name="sender">The sender of the message.</param>
-    public delegate void ChannelMessage(object data, NetPlayer sender);
+    /// <param name="message">The message that was received.</param>
+    public delegate void ChannelMessageHandler(ChannelMessage message);
 
     /// <summary>
     /// Action called when the channel receives a message.
     /// </summary>
-    public ChannelMessage OnReceivedMessage = (_, _) => {};
+    public ChannelMessageHandler OnReceivedMessage = (_) => {};
 
     /// <summary>
     /// Send an object on the channel to a player.
@@ -45,11 +45,12 @@ public sealed class CardboardChannel : IDisposable
         if (!NetworkSystem.Instance.InRoom)
             throw new Exception("You are not connected to a room.");
             
-        object[] sendData = [Name, data];
+        int[] targetActorNumbers = [ targetPlayer.ActorNumber ];
+        object[] sendData = [Name, ChannelMessageType.Unicast, targetActorNumbers, data];
 
         RaiseEventOptions raiseEventOptions = new()
         {
-            TargetActors = [ targetPlayer.ActorNumber ]
+            TargetActors = targetActorNumbers
         };
 
         PhotonNetwork.RaiseEvent(CardboardNetwork.CardboardEventCode, sendData, raiseEventOptions, SendOptions.SendReliable);
@@ -70,11 +71,12 @@ public sealed class CardboardChannel : IDisposable
         if (!NetworkSystem.Instance.InRoom)
             throw new Exception("You are not connected to a room.");
             
-        object[] sendData = [Name, data];
+        int[] targetActorNumbers = [ .. targetPlayers.Select(player => player.ActorNumber) ];
+        object[] sendData = [Name, ChannelMessageType.Multicast, targetActorNumbers, data];
 
         RaiseEventOptions raiseEventOptions = new()
         {
-            TargetActors = [ .. targetPlayers.Select(player => player.ActorNumber) ]
+            TargetActors = targetActorNumbers
         };
 
         PhotonNetwork.RaiseEvent(CardboardNetwork.CardboardEventCode, sendData, raiseEventOptions, SendOptions.SendReliable);
@@ -87,15 +89,25 @@ public sealed class CardboardChannel : IDisposable
     /// <param name="sendSelf">Send the message to yourself</param>
     /// <exception cref="ArgumentNullException">channel or targetPlayer is null.</exception>
     /// <exception cref="Exception">Most likely thrown if not connected to a room.</exception>
-    public void BroadcastMessage(object data, bool sendSelf = false)
+    public void SendMessage(object data, bool sendSelf = false)
     {
-        SendMessage(data, NetworkSystem.Instance.PlayerListOthers);
+        if (!NetworkSystem.Instance.InRoom)
+            throw new Exception("You are not connected to a room.");
+        
+        int[] targetActorNumbers = [ .. NetworkSystem.Instance.PlayerListOthers.Select(player => player.ActorNumber) ];
+        object[] sendData = [Name, ChannelMessageType.Broadcast, targetActorNumbers, data];
+
+        RaiseEventOptions raiseEventOptions = new()
+        {
+            TargetActors = targetActorNumbers
+        };
+
+        PhotonNetwork.RaiseEvent(CardboardNetwork.CardboardEventCode, sendData, raiseEventOptions, SendOptions.SendReliable);
 
         if (!sendSelf)
             return;
         
-        OnRaiseEvent(CardboardNetwork.CardboardEventCode,
-            data, NetworkSystem.Instance.LocalPlayer.ActorNumber);
+        OnRaiseEvent(CardboardNetwork.CardboardEventCode, data, NetworkSystem.Instance.LocalPlayer.ActorNumber);
     }
 
     /// <inheritdoc cref="CardboardChannel"/>
@@ -112,24 +124,21 @@ public sealed class CardboardChannel : IDisposable
         if (eventCode != CardboardNetwork.CardboardEventCode)
             return;
 
-        if (data is not object[] channelData || channelData.Length != 2)
+        if (data is not object[] channelData || channelData.Length != 4)
             return;
 
         if (channelData[0] is not string channel)
             return;
 
-        var players = NetworkSystem.Instance.AllNetPlayers;
-        if (players.FirstOrDefault(n => n.ActorNumber == callingActor) is not NetPlayer invoker)
+        ChannelMessage message = new ChannelMessage(channelData, callingActor);
+        
+        if (message is null)
             return;
 
-        try
-        {
-            if (Name == channel)
-                OnReceivedMessage?.Invoke(channelData[1], invoker);
-        }
+        try { OnReceivedMessage?.Invoke(message); }
         catch (Exception ex)
         {
-            CardboardManager.Instance.Logger.Log(ex);
+            Debug.Log(ex);
         }
     }
 
