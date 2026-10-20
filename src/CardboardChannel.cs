@@ -84,21 +84,18 @@ public sealed class CardboardChannel : IDisposable
     /// Send an object on the channel to all players in the room.
     /// </summary>
     /// <param name="data">The object to send.</param>
+    /// <param name="sendSelf">Send the message to yourself</param>
     /// <exception cref="ArgumentNullException">channel or targetPlayer is null.</exception>
     /// <exception cref="Exception">Most likely thrown if not connected to a room.</exception>
-    public void SendMessage(object data)
+    public void BroadcastMessage(object data, bool sendSelf = false)
     {
-        if (!NetworkSystem.Instance.InRoom)
-            throw new Exception("You are not connected to a room.");
-            
-        object[] sendData = [Name, data];
+        SendMessage(data, NetworkSystem.Instance.PlayerListOthers);
 
-        RaiseEventOptions raiseEventOptions = new()
-        {
-            TargetActors = [ .. NetworkSystem.Instance.PlayerListOthers.Select(player => player.ActorNumber) ]
-        };
-
-        PhotonNetwork.RaiseEvent(CardboardNetwork.CardboardEventCode, sendData, raiseEventOptions, SendOptions.SendReliable);
+        if (!sendSelf)
+            return;
+        
+        OnRaiseEvent(CardboardNetwork.CardboardEventCode,
+            data, NetworkSystem.Instance.LocalPlayer.ActorNumber);
     }
 
     /// <inheritdoc cref="CardboardChannel"/>
