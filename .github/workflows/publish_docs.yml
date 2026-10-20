@@ -34,12 +34,12 @@ jobs:
       uses: sirkingbinx/setup-gorilla-tag@1.0.0
 
     - run: dotnet tool install -g docfx
-    - run: docfx metadata docfx.json --property CI=true
+    - run: docfx metadata --property CI=TRUE
     
     - name: Build DocFX Site
       env:
         CI: 'TRUE'
-      run: docfx docfx.json --logLevel verbose
+      run: docfx build docfx.json --logLevel verbose
     
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
