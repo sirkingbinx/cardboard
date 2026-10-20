@@ -23,16 +23,15 @@
     "content": [
       {
         "files": [
-          "**/*.{md,yml}"
+          "articles/**/*.md",
+          "articles/**/toc.yml",
+          "index.md",
+          "toc.yml"
         ],
         "exclude": [
+          "**/bin/**",
+          "**/obj/**",
           "_site/**"
-        ]
-      },
-      {
-        "files": [
-          "api/**/*.yml",
-          "api/toc.yml"
         ]
       }
     ],

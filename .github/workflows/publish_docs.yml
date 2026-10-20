@@ -37,8 +37,6 @@ jobs:
     - run: docfx metadata --property CI=TRUE
     
     - name: Build DocFX Site
-      env:
-        CI: 'TRUE'
       run: docfx build docfx.json --logLevel verbose
     
     - name: Upload artifact
