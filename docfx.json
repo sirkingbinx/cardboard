@@ -5,13 +5,15 @@
       "src": [
         {
           "files": [ 
-            "Cardboard.dll",
-            "Cardboard.xml" 
+            "**/*.csproj" 
           ],
-          "src": "bin"
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ]
         }
       ],
-      "output": "api"
+      "dest": "api"
     }
   ],
   "build": {
@@ -23,14 +25,25 @@
         "exclude": [
           "_site/**"
         ]
+      },
+      {
+        "files": [
+          "api/**/*.yml",
+          "api/toc.yml"
+        ]
       }
     ],
     "resource": [
       {
         "files": [
-          "images/**",
-          "images/favicon.ico"
+          "images/**"
         ]
+      },
+      {
+        "files": [ 
+          ".github/cardboard.png" 
+        ],
+        "dot": true
       }
     ],
     "output": "_site",
@@ -43,7 +56,8 @@
       "_appTitle": "cardboard",
       "_enableSearch": true,
       "pdf": false,
-      "_appLogoPath": ".github/cardboard.png"
+      "_appLogoPath": ".github/cardboard.png",
+      "_appFaviconPath": ".github/cardboard.png"
     }
   }
 }
