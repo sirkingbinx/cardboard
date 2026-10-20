@@ -67,6 +67,24 @@ namespace Cardboard
         /// <summary>
         /// Create a new CardboardLog.
         /// </summary>
+        /// <param name="plugin">The plugin of your mod.</param>
+        /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/Cardboard/logs/(uuid).log which will be used if outputFolder = "BepInEx".</param>
+        public CardboardLog(BaseUnityPlugin plugin, string outputFolder = null)
+        {
+            var logsFolder = outputFolder ?? Path.Combine(Paths.BepInExRootPath, "Cardboard", "logs");
+
+            if (!Directory.Exists(logsFolder))
+                Directory.CreateDirectory(logsFolder);
+            
+            var logsFile = $"{plugin.Info.Metadata.GUID}.log";
+
+            _currentWriter = new StreamWriter(Path.Combine(logsFolder, logsFile));
+            _currentWriter.AutoFlush = true;
+        }
+
+        /// <summary>
+        /// Create a new CardboardLog.
+        /// </summary>
         /// <param name="uuid">The UUID of your mod.</param>
         /// <param name="outputFolder">The folder that your mod's logs will be collected in. By default, this is (GT)/Cardboard/logs/(uuid).log which will be used if outputFolder = "BepInEx".</param>
         public CardboardLog(string uuid, string outputFolder = null)

@@ -64,7 +64,7 @@ internal class CardboardManager : MonoBehaviour
                     IntPtr wineVersionProc = GetProcAddress(ntdllHandle, "wine_get_version");
 
                     if (wineVersionProc != IntPtr.Zero)
-                        system.SystemEnvironment = SystemEnvironment.WindowsOverWine;
+                        system.SystemEnvironment = SystemEnvironment.Linux;
                 }
             } catch { } // not on wine, ignore
         }
@@ -111,38 +111,21 @@ internal class CardboardManager : MonoBehaviour
             CardboardEvents.OnLeftRoom += lHandler.OnLeftRoom;
         }
 
-        var customModes = CardboardReflection.GetInstancesOfBepInterface<CardboardCustomGamemode>();
+        var customModes = CardboardReflection.GetInstancesOfInterface<CardboardCustomGamemode>();
         if (CardboardLibIntegrator.HasProvider)
         {
-            foreach (var (owner, mode) in customModes)
-                StartCoroutine(RegisterWithProvider(owner.Instance, mode));
+            foreach (CardboardCustomGamemode mode in customModes)
+            {
+                if (!CardboardBootstrap.TryGetPluginInfo(mode.GetType().Assembly, out BepInEx.PluginInfo info))
+                    continue;
+
+                StartCoroutine(RegisterWithProvider(info.Instance, mode));
+            }
         }
         else
         {
-            CardboardGamemodes.Initialize(customModes.Select(entry => entry.Item2));
+            CardboardGamemodes.Initialize(customModes);
         }
-
-        NetworkSystem.Instance.OnRaiseEvent += (eventCode, data, _) =>
-        {
-            if (eventCode != CardboardNetwork.CardboardEventCode)
-                return;
-
-            if (data is not object[] channelData || channelData.Length != 2)
-                return;
-
-            if (channelData[0] is not string channel)
-                return;
-
-            try
-            {
-                if (CardboardNetwork.eventHandlers.ContainsKey(channel))
-                    CardboardNetwork.eventHandlers[channel].Invoke(channelData[1]);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex);
-            }
-        };
 
         Logger.Log(WelcomeMessage);
         

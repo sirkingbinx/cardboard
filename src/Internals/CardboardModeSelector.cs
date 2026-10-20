@@ -142,7 +142,7 @@ internal class CardboardModeSelector : MonoBehaviour
             text.gameObject.SetActive(true);
             text.text = title;
             text.enableAutoSizing = false;
-            text.fontSize *= 0.75f;
+            text.fontSize *= 0.675f;
             text.transform.localPosition = Vector3.forward * 0.525f;
             text.transform.localEulerAngles = Vector3.up * 180;
             text.transform.localScale = Vector3.Scale(text.transform.localScale, new Vector3(0.5f, 0.5f, 1));

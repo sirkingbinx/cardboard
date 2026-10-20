@@ -9,52 +9,52 @@ public enum InputType {
     /// <summary>
     /// The left primary button (X)
     /// </summary>
-    leftPrimary,
+    LeftPrimary,
 
     /// <summary>
     /// The left secondary button (Y)
     /// </summary>
-    leftSecondary,
+    LeftSecondary,
 
     /// <summary>
     /// The left grip. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
     /// </summary>
-    leftGrip,
+    LeftGrip,
 
     /// <summary>
     /// The left trigger. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
     /// </summary>
-    leftTrigger,
+    LeftTrigger,
 
     /// <summary>
     /// The left joystick click.
     /// </summary>
-    leftStick,
+    LeftStick,
 
     /// <summary>
     /// The right primary button (A)
     /// </summary>
-    rightPrimary,
+    RightPrimary,
 
     /// <summary>
     /// The right secondary button (B)
     /// </summary>
-    rightSecondary,
+    RightSecondary,
 
     /// <summary>
     /// The right grip. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
     /// </summary>
-    rightGrip,
+    RightGrip,
 
     /// <summary>
     /// The right trigger. This is true if the control is pressed in greater than your sensitivity settings (which is 50% by default).
     /// </summary>
-    rightTrigger,
+    RightTrigger,
 
     /// <summary>
     /// The right joystick click.
     /// </summary>
-    rightStick,
+    RightStick,
 };
 
 /// <summary>
@@ -64,12 +64,12 @@ public enum SpecialInputType {
     /// <summary>
     /// The left thumbstick. Type: Vector2
     /// </summary>
-    leftThumbstickAxis,
+    LeftThumbstickAxis,
 
     /// <summary>
     /// The right thumbstick. Type: Vector2
     /// </summary>
-    rightThumbstickAxis,
+    RightThumbstickAxis,
 };
 
 /// <summary>
@@ -87,9 +87,9 @@ public enum SystemEnvironment {
     Windows,
 
     /// <summary>
-    /// A Windows NT environment running inside of Wine. This is generally the platform you get when running Gorilla Tag on Linux using Wine/Proton.
+    /// The user is on Linux. This is set when the game is running under Wine or Proton.
     /// </summary>
-    WindowsOverWine
+    Linux
 };
 
 /// <summary>
@@ -151,21 +151,4 @@ public enum LogLevel
     /// An Error log level. Take a guess at what this one means.
     /// </summary>
     Error
-}
-
-/// <summary>
-/// Represents a mod loader. Such wow.
-/// </summary>
-[Obsolete]
-public enum ModLoader
-{
-    /// <summary>
-    /// The <see href="https://github.com/BepInEx/BepInEx">BepInEx</see> mod loader.
-    /// </summary>
-    BepInEx = 0,
-
-    /// <summary>
-    /// The <see href="https://github.com/LavaGang/MelonLoader">MelonLoader</see> mod loader.
-    /// </summary>
-    MelonLoader
 }

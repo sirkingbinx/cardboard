@@ -400,3 +400,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+Libs/
+api/
+_site/
+dotnet-tools.json

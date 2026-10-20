@@ -38,16 +38,8 @@
     ],
     "resource": [
       {
-        "files": [
-          "images/**"
-        ]
-      },
-      {
-        "src": ".github",
-        "files": [ 
-          "cardboard.png" 
-        ],
-        "dest": "images"
+        "files": ["images/**", ".github/**"],
+        "exclude": ["**/obj/**", "**/bin/**"]
       }
     ],
     "output": "_site",
@@ -60,8 +52,9 @@
       "_appTitle": "cardboard",
       "_enableSearch": true,
       "pdf": false,
-      "_appLogoPath": ".github/cardboard.png",
-      "_appFaviconPath": ".github/cardboard.png"
-    }
+      "_appLogoPath": ".github/cardboard-icon.png",
+      "_appFaviconPath": ".github/cardboard-icon.png"
+    },
+    "dest": "_site"
   }
 }
