@@ -43,7 +43,6 @@
         "exclude": ["**/obj/**", "**/bin/**"]
       }
     ],
-    "dest": ".",
     "template": [
       "default",
       "modern"
@@ -55,6 +54,6 @@
       "pdf": false,
       "_appLogoPath": ".github/cardboard-icon.png",
       "_appFaviconPath": ".github/cardboard-icon.png"
-    },
+    }
   }
 }
